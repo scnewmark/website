@@ -2,7 +2,7 @@ import { AppProps } from 'next/dist/next-server/lib/router/router';
 import { config, library } from '@fortawesome/fontawesome-svg-core';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import '@fortawesome/fontawesome-svg-core/styles.css';
-import nprogress from '../public/js/nprogress';
+import nprogress from 'nprogress';
 import '../public/nprogress.css';
 import '../public/globals.scss';
 import Router from 'next/router';
