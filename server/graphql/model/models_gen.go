@@ -21,7 +21,7 @@ type NewUser struct {
 }
 
 type Post struct {
-	ID          string `json:"_id"`
+	ID          string `json:"_id" bson:"_id"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
 	Content     string `json:"content"`
@@ -30,7 +30,7 @@ type Post struct {
 }
 
 type URL struct {
-	ID        string `json:"_id"`
+	ID        string `json:"_id" bson:"_id"`
 	Key       string `json:"key"`
 	Dest      string `json:"dest"`
 	CreatedAt int    `json:"createdAt"`
@@ -38,7 +38,7 @@ type URL struct {
 }
 
 type User struct {
-	ID        string `json:"_id"`
+	ID        string `json:"_id" bson:"_id"`
 	Username  string `json:"username"`
 	Password  string `json:"password"`
 	Bio       string `json:"bio"`
