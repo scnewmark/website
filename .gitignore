@@ -5,6 +5,9 @@ node_modules
 .next
 dist
 
+# Environment
+.env
+
 # Apple
 .DS_Store
 

@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
+	"path/filepath"
+	"strings"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
@@ -14,6 +17,10 @@ import (
 
 const port = 8000
 const hostname = "http://localhost"
+
+func init() {
+	loadEnv()
+}
 
 func main() {
 	database.CreateClient()
@@ -27,5 +34,22 @@ func main() {
 	log.Printf("info - server live at %s%s\n", hostname, addr)
 	if err := http.ListenAndServe(addr, nil); err != nil {
 		log.Fatal(err)
+	}
+}
+
+func loadEnv() {
+	abs, err := filepath.Abs("../.env")
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	data, err := os.ReadFile(abs)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	for _, line := range strings.Split(string(data), "\n") {
+		var split = strings.SplitAfterN(line, "=", 2)
+		os.Setenv(strings.ReplaceAll(split[0], "=", ""), split[1])
 	}
 }

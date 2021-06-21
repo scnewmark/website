@@ -4,14 +4,13 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
-
-const uri = `mongodb+srv://scnewmark:1Bydzx6tDVovZGQM@storage.phiez.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
 
 // Client is the manager
 var Client *mongo.Client
@@ -23,7 +22,7 @@ func CreateClient() {
 
 	log.Println("info - connecting to mongo cluster")
 	var err error
-	Client, err = mongo.Connect(ctx, options.Client().ApplyURI(uri))
+	Client, err = mongo.Connect(ctx, options.Client().ApplyURI(os.Getenv("WEBSITE_MONGO_URI")))
 	if err != nil {
 		log.Fatal(err)
 	}
