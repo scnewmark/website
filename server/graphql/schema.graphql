@@ -1,0 +1,65 @@
+type User {
+  _id: String!
+  username: String!
+  password: String!
+  bio: String!
+  avatar: String!
+  createdAt: Int!
+  updatedAt: Int!
+}
+
+type Post {
+  _id: String!
+  title: String!
+  description: String!
+  content: String!
+  createdAt: Int!
+  updatedAt: Int!
+}
+
+type URL {
+  _id: String!
+  key: String!
+  dest: String!
+  createdAt: Int!
+  updatedAt: Int!
+}
+
+type Query {
+  user(id: String!): User!
+  users: [User!]!
+
+  post(id: String!): Post!
+  posts: [Post!]!
+
+  url(key: String!): URL!
+  urls: [URL!]!
+}
+
+input NewUser {
+  username: String!
+  password: String!
+  avatar: String!
+  bio: String!
+}
+
+input NewPost {
+  title: String!
+  description: String!
+  content: String!
+}
+
+input NewURL {
+  key: String!
+  dest: String!
+}
+
+type Mutation {
+  createUser(data: NewUser!): User!
+  createPost(data: NewPost!): Post!
+  createURL(data: NewURL!): URL!
+
+  deleteUser(id: String!): Boolean!
+  deletePost(id: String!): Boolean!
+  deleteURL(key: String!): Boolean!
+}
