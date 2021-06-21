@@ -30,5 +30,8 @@ $navbar-breakpoint: 700px;
 $code: $golden-yellow;
 $code-background: $chinese-black;
 
+/* nprogress */
+@import "./nprogress.scss";
+
 /* bulma */
 @import "../node_modules/bulma/bulma.sass";

@@ -1,6 +1,6 @@
 import type { NotificationProps } from '../../src/types';
 import { setCookie } from '../../helpers/cookies';
-import styles from './notification.module.css';
+import styles from './notification.module.scss';
 import { useEffect, useState } from 'react';
 
 const Notification = (props: NotificationProps) => {
