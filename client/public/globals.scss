@@ -1,0 +1,34 @@
+/* font */
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+$family-sans-serif: "Nunito", sans-serif;
+
+/* theme colors */
+$chinese-black: #2C2F33;
+$gold: #FBC403;
+$goldenrod: #FBFCD4;
+$golden-yellow: #FFDD03;
+
+/* primary scheme */
+$scheme-main: $chinese-black;
+$scheme-invert: $goldenrod;
+
+/* default color overrides */
+$primary: $gold;
+$info: $goldenrod;
+$link: $gold;
+
+/* buttons */
+$button-border-color: $gold;
+$link-hover: $golden-yellow;
+
+/* navbar */
+$navbar-item-color: $scheme-invert;
+$navbar-dropdown-item-hover-color: $gold;
+$navbar-breakpoint: 700px;
+
+/* code blocks */
+$code: $golden-yellow;
+$code-background: $chinese-black;
+
+/* bulma */
+@import "../node_modules/bulma/bulma.sass";

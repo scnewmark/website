@@ -1,0 +1,8 @@
+.custom-notification {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    opacity: 1;
+    -webkit-transition: opacity 300ms linear;
+    transition: opacity 300ms linear;
+}
