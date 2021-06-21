@@ -38,7 +38,7 @@ func main() {
 }
 
 func loadEnv() {
-	abs, err := filepath.Abs("../.env")
+	abs, err := filepath.Abs("./.env")
 	if err != nil {
 		log.Fatalln(err)
 	}
