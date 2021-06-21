@@ -2,15 +2,15 @@ import { FunctionComponent, ReactNode } from 'react';
 
 export type SEOProps = {
     openGraph: {
-        [key: string]: string;
-        site: string;
-        title: string;
-        description: string;
-        image: string;
-        url: string;
-        type: 'article' | 'content';
+        [key: string]: string | undefined;
+        site?: string;
+        title?: string;
+        description?: string;
+        image?: string;
+        url?: string;
+        type?: 'article' | 'content';
     }
-    themeColor: string;
+    themeColor?: string;
     name: string;
 };
 

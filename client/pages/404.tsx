@@ -1,7 +1,8 @@
 import {
 	Card,
 	Navbar,
-	Particles
+	Particles,
+	SEO
 } from '../components';
 import { useRouter } from 'next/router';
 
@@ -11,6 +12,10 @@ const ErrorNotFound = () => {
 	return (
 		<>
 			<div>
+				<SEO
+					openGraph={{}}
+					name="404"
+				/>
 				<Particles/>
 				<Navbar/>
 				<div className="container" style={{ maxWidth: 700, paddingLeft: 30, paddingRight: 30 }}>
