@@ -1,0 +1,38 @@
+{
+  "name": "website-next",
+  "version": "0.1.0",
+  "description": "Personal website with Next.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "repository": "https://github.com/scnewmark/website-next",
+  "author": "scnewmark",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "@apollo/client": "^3.3.20",
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-brands-svg-icons": "^5.15.3",
+    "@fortawesome/react-fontawesome": "^0.1.14",
+    "bulma": "^0.9.3",
+    "graphql": "^15.5.1",
+    "next": "^11.0.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-tsparticles": "^1.29.0"
+  },
+  "devDependencies": {
+    "@types/nprogress": "^0.2.0",
+    "@types/react": "^17.0.11",
+    "@typescript-eslint/eslint-plugin": "^4.27.0",
+    "@typescript-eslint/parser": "^4.27.0",
+    "eslint": "^7.29.0",
+    "eslint-config-next": "^11.0.0",
+    "eslint-config-tesseract": "^0.3.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "sass": "^1.35.1",
+    "typescript": "^4.3.4"
+  }
+}

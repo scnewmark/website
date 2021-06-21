@@ -1,0 +1,15 @@
+{
+    "extends": [
+        "tesseract",
+        "next",
+        "plugin:react-hooks/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "env": {
+        "browser": true,
+        "node": true
+    },
+    "globals": {
+        "NodeJS": "readonly"
+    }
+}
