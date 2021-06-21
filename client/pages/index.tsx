@@ -13,7 +13,7 @@ const Content = () =>
 	<>
 		<SEO
 			openGraph={{
-				title: 'scnewmark • Home',
+				title: 'Home',
 				description: 'My personal website.',
 				site: 'http://localhost:3000',
 				image: '/images/scnewmark.png',

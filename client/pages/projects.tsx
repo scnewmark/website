@@ -9,7 +9,7 @@ const Projects = () =>
 		<div>
 			<SEO
 				openGraph={{
-					title: 'scnewmark • Projects',
+					title: 'Projects',
 					description: 'A collection of projects I\'ve worked on.',
 					site: 'http://localhost:3000/projects',
 					image: '/images/scnewmark.png',

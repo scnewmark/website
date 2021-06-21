@@ -1,8 +1,7 @@
 import {
 	Card,
 	Navbar,
-	Particles,
-	SEO
+	Particles
 } from '../components';
 import { useRouter } from 'next/router';
 
@@ -12,18 +11,6 @@ const ErrorNotFound = () => {
 	return (
 		<>
 			<div>
-				<SEO
-					openGraph={{
-						title: 'scnewmark • 404',
-						description: 'No page found :(',
-						site: 'http://localhost:3000',
-						image: '/images/scnewmark.png',
-						url: 'http://localhost:3000',
-						type: 'article'
-					}}
-					name="404"
-					themeColor="#FBC403"
-				/>
 				<Particles/>
 				<Navbar/>
 				<div className="container" style={{ maxWidth: 700, paddingLeft: 30, paddingRight: 30 }}>
