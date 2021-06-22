@@ -2,11 +2,17 @@ version: "3.7"
 
 services:
     client:
-        build: client
+        build:
+            context: client
+            dockerfile: Dockerfile
         ports: 
         - 3000:3000
         depends_on:
         - server
+        volumes:
+        - './client:/usr/src/app'
+        - '/usr/src/app/node_modules'
+        - '/usr/src/app/.next'
     server:
         build: server
         ports: 
