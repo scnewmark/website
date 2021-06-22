@@ -23,7 +23,7 @@ func init() {
 }
 
 func main() {
-	database.CreateClient()
+	database.CreatePostgre()
 
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graphql.Resolver{}}))
 
@@ -32,6 +32,7 @@ func main() {
 
 	var addr = fmt.Sprintf(":%d", port)
 	log.Printf("info - server live at %s%s\n", hostname, addr)
+
 	if err := http.ListenAndServe(addr, nil); err != nil {
 		log.Fatal(err)
 	}

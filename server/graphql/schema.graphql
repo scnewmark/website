@@ -54,12 +54,19 @@ input NewURL {
   dest: String!
 }
 
+input Login {
+  username: String!
+  password: String!
+}
+
 type Mutation {
+  login(data: Login!): User!
+
   createUser(data: NewUser!): User!
   createPost(data: NewPost!): Post!
   createURL(data: NewURL!): URL!
 
-  deleteUser(id: String!): Boolean!
+  deleteUser(username: String!): Boolean!
   deletePost(id: String!): Boolean!
   deleteURL(key: String!): Boolean!
 }

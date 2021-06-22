@@ -2,56 +2,64 @@ package database
 
 import (
 	"context"
-	"fmt"
 	"log"
-	"os"
 	"time"
 
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"github.com/go-pg/pg/v10"
+	"github.com/go-pg/pg/v10/orm"
+	"github.com/scnewmark/website-new/server/graphql/model"
 )
 
-// Client is the manager
-var Client *mongo.Client
+// PostgreDB is the PostgreSQL database
+var PostgreDB *pg.DB
 
-// CreateClient creates a new MongoDB client
-func CreateClient() {
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
+// CreatePostgre creates the PostgreSQL client
+func CreatePostgre() {
+	PostgreDB = pg.Connect(&pg.Options{
+		User:     "postgres",
+		Password: "postgres",
+		OnConnect: func(ctx context.Context, cn *pg.Conn) error {
+			start := time.Now()
+			err := cn.Ping(ctx)
+			end := time.Now()
+			if err != nil {
+				log.Fatalln(err)
+			}
+			log.Println("info - connected to PostgreSQL database")
+			log.Printf("info - PostgreSQL database latency: %dms\n", end.Sub(start).Milliseconds())
+			return nil
+		},
+	})
 
-	log.Println("info - connecting to mongo cluster")
-	var err error
-	Client, err = mongo.Connect(ctx, options.Client().ApplyURI(os.Getenv("WEBSITE_MONGO_URI")))
+	err := createSchema(PostgreDB)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalln(err)
 	}
-	log.Println("info - connected to mongo cluster")
+	log.Println("info - created PostgreSQL schema")
 }
 
-// InsertOne inserts data into the collection in database
-func InsertOne(database, collection string, data interface{}) (string, error) {
-	col := Client.Database(database).Collection(collection)
-
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-
-	res, err := col.InsertOne(ctx, data)
-	if err != nil {
-		return "", err
-	}
-	return fmt.Sprint(res.InsertedID), nil
-}
-
-// Exists returns a boolean whether the document exists
-func Exists(database, collection, key, value string) bool {
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-
-	result := Client.Database(database).Collection(collection).FindOne(ctx, bson.M{key: value})
-	if result.Err() == nil {
-		return true
+func createSchema(db *pg.DB) error {
+	models := []interface{}{
+		(*model.Post)(nil),
+		(*model.URL)(nil),
+		(*model.User)(nil),
 	}
 
-	return false
+	for _, model := range models {
+		err := db.Model(model).DropTable(&orm.DropTableOptions{
+			IfExists: true,
+		})
+		if err != nil {
+			return err
+		}
+
+		err = db.Model(model).CreateTable(&orm.CreateTableOptions{
+			Temp: false,
+		})
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
 }

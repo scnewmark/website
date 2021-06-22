@@ -2,6 +2,11 @@
 
 package model
 
+type Login struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
 type NewPost struct {
 	Title       string `json:"title"`
 	Description string `json:"description"`
@@ -21,7 +26,7 @@ type NewUser struct {
 }
 
 type Post struct {
-	ID          string `json:"_id" bson:"_id"`
+	ID          string `json:"_id"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
 	Content     string `json:"content"`
@@ -30,7 +35,7 @@ type Post struct {
 }
 
 type URL struct {
-	ID        string `json:"_id" bson:"_id"`
+	ID        string `json:"_id"`
 	Key       string `json:"key"`
 	Dest      string `json:"dest"`
 	CreatedAt int    `json:"createdAt"`
@@ -38,7 +43,7 @@ type URL struct {
 }
 
 type User struct {
-	ID        string `json:"_id" bson:"_id"`
+	ID        string `json:"_id"`
 	Username  string `json:"username"`
 	Password  string `json:"password"`
 	Bio       string `json:"bio"`
