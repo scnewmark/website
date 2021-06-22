@@ -5,15 +5,23 @@ services:
         build:
             context: client
             dockerfile: Dockerfile
-        ports: 
-        - 3000:3000
+        ports:
+            - 3000:3000
         depends_on:
-        - server
+            - server
         volumes:
-        - './client:/usr/src/app'
-        - '/usr/src/app/node_modules'
-        - '/usr/src/app/.next'
+            - './client:/usr/src/app'
+            - '/usr/src/app/node_modules'
+            - '/usr/src/app/.next'
     server:
         build: server
-        ports: 
-        - 8000:8000
+        ports:
+            - 8000:8000
+        depends_on:
+            - database
+    database:
+        image: postgres
+        environment:
+            POSTGRES_PASSWORD: postgres
+        ports:
+            - 5432:5432
