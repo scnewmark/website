@@ -26,6 +26,8 @@ type URL {
 }
 
 type Query {
+  me: User!
+
   user(id: String!): User!
   users: [User!]!
 

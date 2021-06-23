@@ -1,0 +1,14 @@
+.form-container {
+    max-width: 400px !important;
+    z-index: 1;
+    margin-top: 25vh;
+}
+
+.form-container ::placeholder {
+    opacity: 0.45;
+    color: #FBFCD4;
+}
+
+.form-error-icon {
+    color: #FFC0CB;
+}

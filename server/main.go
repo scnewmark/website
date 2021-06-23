@@ -10,9 +10,12 @@ import (
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/go-chi/chi"
+	"github.com/rs/cors"
 	"github.com/scnewmark/website-new/server/database"
 	"github.com/scnewmark/website-new/server/graphql"
 	"github.com/scnewmark/website-new/server/graphql/generated"
+	"github.com/scnewmark/website-new/server/middleware"
 )
 
 const port = 8000
@@ -23,17 +26,32 @@ func init() {
 }
 
 func main() {
+	mux := chi.NewRouter()
 	database.CreatePostgre()
+	mux.Use(middleware.Context())
 
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graphql.Resolver{}}))
 
-	http.Handle("/", playground.Handler("GraphQL Playground", "/graphql"))
-	http.Handle("/graphql", srv)
+	mux.Handle("/", playground.Handler("GraphQL Playground", "/graphql"))
+	mux.Handle("/graphql", srv)
 
 	var addr = fmt.Sprintf(":%d", port)
 	log.Printf("info - server live at %s%s\n", hostname, addr)
 
-	if err := http.ListenAndServe(addr, nil); err != nil {
+	cors := cors.New(cors.Options{
+		AllowedOrigins: []string{"http://localhost:3000"},
+		AllowedMethods: []string{
+			http.MethodHead,
+			http.MethodGet,
+			http.MethodPost,
+			http.MethodPut,
+			http.MethodPatch,
+			http.MethodDelete,
+		},
+		AllowedHeaders:   []string{"*"},
+		AllowCredentials: true,
+	}).Handler(mux)
+	if err := http.ListenAndServe(addr, cors); err != nil {
 		log.Fatal(err)
 	}
 }

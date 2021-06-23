@@ -3,19 +3,23 @@
 $family-sans-serif: "Nunito", sans-serif;
 
 /* theme colors */
-$chinese-black: #2C2F33;
+$dark-but-not-black: #2C2F33;
+$not-quite-black: #23272A;
 $gold: #FBC403;
 $goldenrod: #FBFCD4;
 $golden-yellow: #FFDD03;
+$blurple: #7289DA;
+$error: #FFC0CB;
 
 /* primary scheme */
-$scheme-main: $chinese-black;
+$scheme-main: $dark-but-not-black;
 $scheme-invert: $goldenrod;
 
 /* default color overrides */
 $primary: $gold;
 $info: $goldenrod;
 $link: $gold;
+$danger: $error;
 
 /* buttons */
 $button-border-color: $gold;
@@ -28,7 +32,15 @@ $navbar-breakpoint: 700px;
 
 /* code blocks */
 $code: $golden-yellow;
-$code-background: $chinese-black;
+$code-background: $dark-but-not-black;
+
+/* forms */
+$control-border-width: 2px;
+$input-background-color: $not-quite-black;
+$input-border-color: transparent;
+$input-icon-active-color: $blurple;
+$input-icon-color: $blurple;
+$input-shadow: none;
 
 /* nprogress */
 @import "./nprogress.scss";

@@ -1,3 +1,4 @@
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FunctionComponent, ReactNode } from 'react';
 
 export type SEOProps = {
@@ -12,6 +13,19 @@ export type SEOProps = {
     }
     themeColor?: string;
     name: string;
+};
+
+export type InputField = {
+    value: string;
+    error: string;
+};
+
+export type FieldProps = {
+    name: string;
+    leftIcon: IconProp;
+    rightIcon: IconProp;
+    field: InputField;
+    children: ReactNode;
 };
 
 export type LinkProps = {

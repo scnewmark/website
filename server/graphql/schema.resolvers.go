@@ -13,6 +13,7 @@ import (
 	"github.com/scnewmark/website-new/server/database"
 	"github.com/scnewmark/website-new/server/graphql/generated"
 	"github.com/scnewmark/website-new/server/graphql/model"
+	"github.com/scnewmark/website-new/server/middleware"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -26,6 +27,16 @@ func (r *mutationResolver) Login(ctx context.Context, data model.Login) (*model.
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(data.Password))
 	if err != nil {
 		return nil, fmt.Errorf("invalid credentials: password does not match")
+	}
+
+	request := middleware.RequestFromContext(ctx)
+	writer := middleware.WriterFromContext(ctx)
+
+	session, _ := database.Store.Get(request, "qid")
+	session.Values["user-id"] = user.ID
+	err = session.Save(request, writer)
+	if err != nil {
+		return nil, fmt.Errorf("server error: failed to save user session")
 	}
 
 	return &user, nil
@@ -144,6 +155,17 @@ func (r *mutationResolver) DeleteURL(ctx context.Context, key string) (bool, err
 		return false, errors.New("invalid key: no rows affected by change")
 	}
 	return true, nil
+}
+
+func (r *queryResolver) Me(ctx context.Context) (*model.User, error) {
+	request := middleware.RequestFromContext(ctx)
+	session, _ := database.Store.Get(request, "qid")
+	id := session.Values["user-id"]
+	if session.Values["user-id"] == nil {
+		return nil, errors.New("no session available")
+	}
+
+	return r.User(ctx, fmt.Sprint(id))
 }
 
 func (r *queryResolver) User(ctx context.Context, id string) (*model.User, error) {

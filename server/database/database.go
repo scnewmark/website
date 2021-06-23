@@ -7,17 +7,23 @@ import (
 
 	"github.com/go-pg/pg/v10"
 	"github.com/go-pg/pg/v10/orm"
+	"github.com/gorilla/securecookie"
+	"github.com/gorilla/sessions"
 	"github.com/scnewmark/website-new/server/graphql/model"
 )
 
 // PostgreDB is the PostgreSQL database
 var PostgreDB *pg.DB
 
+// Store is the session store
+var Store = sessions.NewCookieStore(securecookie.GenerateRandomKey(32))
+
 // CreatePostgre creates the PostgreSQL client
 func CreatePostgre() {
 	PostgreDB = pg.Connect(&pg.Options{
 		User:     "postgres",
 		Password: "postgres",
+		Addr:     "database:5432",
 		OnConnect: func(ctx context.Context, cn *pg.Conn) error {
 			start := time.Now()
 			err := cn.Ping(ctx)
