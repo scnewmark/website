@@ -1,15 +1,16 @@
 import {
 	Card,
 	Navbar,
-	Notification,
 	Particles,
 	SEO
 } from '../components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { getCookie } from '../helpers/cookies';
+import { NotificationContext } from './_app';
+import { NotificationProps, NotificationState } from '../src/types';
 import { useState, useEffect } from 'react';
+import useAuth from '../hooks/useAuth';
 
-const Content = () =>
+const Content = (data: any) =>
 	<>
 		<SEO
 			openGraph={{
@@ -24,7 +25,7 @@ const Content = () =>
 			themeColor="#FBC403"
 		/>
 		<Particles/>
-		<Navbar/>
+		<Navbar data={data}/>
 		<div className="container" style={{ maxWidth: 700, paddingLeft: 30, paddingRight: 30 }}>
 			<Card image="/images/scnewmark.png">
 				<div className="has-text-info">
@@ -51,24 +52,30 @@ const Content = () =>
 	</>;
 
 const Home = () => {
-	const [acceptedCookies, setAcceptedCookies] = useState<boolean>(true);
+	const [acceptedCookies, setAcceptedCookies] = useState<boolean>(false);
+	const { data, error } = useAuth();
 
 	useEffect(() => {
-		const cookie = getCookie('closed-cookies-notification');
-		if (!cookie || cookie.value !== 'true') {
-			setAcceptedCookies(false);
-		}
+		const set = localStorage.getItem('closed-cookies-notification');
+		if (set) setAcceptedCookies(true);
 	}, [acceptedCookies]);
 
-	if (acceptedCookies) {
-		return <Content/>;
-	}
+	// eslint-disable-next-line no-unused-vars
+	const createNotifications = (notifications: NotificationState, createNotification: (_: NotificationProps) => void) => {
+		const cookies = notifications.find(notif => notif.name === 'cookies');
+		const dataFetchFailed = notifications.find(notif => notif.name === 'data-fetch-failed');
+		if (!acceptedCookies && !cookies && !acceptedCookies) createNotification({ name: 'cookies', message: 'This site uses cookies to enhance user experience.', persist: true });
+		if (error && !dataFetchFailed) createNotification({ name: 'data-fetch-failed', color: '#FFC0CB', message: 'Failed to fetch data from API', persist: false });
+	};
 
 	return (
-		<div>
-			<Content/>
-			<Notification name="cookies" message="This site uses cookies to enhance user experience."/>
-		</div>
+		<NotificationContext.Consumer>
+			{({ notifications, createNotification }) =>
+				<div onLoad={() => createNotifications(notifications, createNotification)}>
+					<Content data={data}/>
+				</div>
+			}
+		</NotificationContext.Consumer>
 	);
 };
 

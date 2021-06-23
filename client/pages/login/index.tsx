@@ -1,9 +1,10 @@
-import { FieldProps, InputField, LoginResult } from '../../src/types';
+import { FieldProps, InputField, LoginResult, NotificationProps } from '../../src/types';
 import { login as loginMutation } from '../../src/graphql/mutations';
 import { OperationVariables, useMutation } from '@apollo/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { SEO, Navbar, Particles } from '../../components';
+import { NotificationContext } from '../_app';
 import useAuth from '../../hooks/useAuth';
 import styles from './login.module.scss';
 import { useRouter } from 'next/router';
@@ -51,7 +52,8 @@ const Login = () => {
 		});
 	};
 
-	const handleSubmit = async () => {
+	// eslint-disable-next-line no-unused-vars
+	const handleSubmit = async (notify: (props: NotificationProps) => void) => {
 		try {
 			const res = await login({
 				variables: {
@@ -63,15 +65,13 @@ const Login = () => {
 				router.push('/');
 			}
 		} catch (err) {
-			setUsername({
-				...username,
-				error: 'Invaid username and/or password'
-			});
+			if (err.message === 'Failed to fetch') {
+				notify({ name: 'login-fetch-failed', message: 'Failed to fetch data from API', color: '#FFC0CB', persist: false });
+				return;
+			}
 
-			setPassword({
-				...password,
-				error: 'Invalid username and/or password'
-			});
+			setUsername({ ...username, error: 'Invaid username and/or password' });
+			setPassword({ ...password, error: 'Invalid username and/or password' });
 		}
 	};
 
@@ -116,7 +116,11 @@ const Login = () => {
 						</Field>
 						<div className="field">
 							<p className="control">
-								<button className="button is-primary" onClick={handleSubmit}>Login</button>
+								<NotificationContext.Consumer>
+									{({ createNotification }) =>
+										<button className="button is-primary" onClick={() => handleSubmit(createNotification)}>Login</button>
+									}
+								</NotificationContext.Consumer>
 							</p>
 						</div>
 					</div>

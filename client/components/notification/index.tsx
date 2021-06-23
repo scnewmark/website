@@ -1,37 +1,17 @@
 import type { NotificationProps } from '../../src/types';
-import { setCookie } from '../../helpers/cookies';
+import { NotificationContext } from '../../pages/_app';
 import styles from './notification.module.scss';
-import { useEffect, useState } from 'react';
 
-const Notification = (props: NotificationProps) => {
-	const [deleted, setDeleted] = useState<boolean>(false);
-
-	useEffect(() => {
-		if (deleted) {
-			const notification = document.getElementById('notification');
-			if (notification) {
-				notification.style.opacity = '0';
-				setTimeout(() => {
-					notification.remove();
-					setCookie({
-						key: `closed-${props.name}-notification`,
-						value: 'true',
-						maxAge: 86400,
-						path: '/'
-					});
-				}, 300);
-			}
-		}
-	}, [deleted, props.name]);
-
-	return (
-		<div id="notification" className={`container ${styles['custom-notification']}`}>
-			<div className="notification is-primary">
-				<button className="delete" onClick={() => setDeleted(true)}></button>
-				{props.message}
+const Notification = (props: NotificationProps) =>
+	<NotificationContext.Consumer>
+		{({ deleteNotification }) =>
+			<div id={props.name} className={`${styles['custom-notification']}`}>
+				<div className="notification" style={{ backgroundColor: props.color ? props.color : '#FBC403' }}>
+					<button className="delete" onClick={() => deleteNotification(props.name)}></button>
+					{props.message}
+				</div>
 			</div>
-		</div>
-	);
-};
+		}
+	</NotificationContext.Consumer>;
 
 export default Notification;

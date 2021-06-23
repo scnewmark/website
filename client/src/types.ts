@@ -57,7 +57,27 @@ export type CardProps = {
 export type NotificationProps = {
     name: string;
     message: string;
+    persist: boolean;
+    color?: string;
 };
+
+export type NavbarProps = {
+    data?: { data?: { me?: Partial<User> }}
+}
+
+export type NotificationState = NotificationProps[];
+
+export interface INotificationContext {
+	notifications: NotificationState;
+	/* eslint-disable no-unused-vars */
+	createNotification: (props: NotificationProps) => void;
+	deleteNotification: (name: string) => void;
+}
+
+export type AuthProps = {
+    redirectTo?: string;
+    redirectIfFound?: boolean;
+}
 
 export type WithNotificationProps = {
     Content: FunctionComponent;
