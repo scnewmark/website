@@ -1,6 +1,20 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FunctionComponent, ReactNode } from 'react';
 
+export type LoginResult = {
+	login: User;
+};
+
+export type User = {
+    _id: string;
+    username: string;
+    password: string;
+    bio: string;
+    avatar: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
 export type SEOProps = {
     openGraph: {
         [key: string]: string | undefined;
