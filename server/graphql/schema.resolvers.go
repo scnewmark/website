@@ -42,6 +42,24 @@ func (r *mutationResolver) Login(ctx context.Context, data model.Login) (*model.
 	return &user, nil
 }
 
+func (r *mutationResolver) Logout(ctx context.Context) (bool, error) {
+	request := middleware.RequestFromContext(ctx)
+	writer := middleware.WriterFromContext(ctx)
+
+	session, _ := database.Store.Get(request, "qid")
+	id := session.Values["user-id"]
+	if id != nil {
+		session.Options.MaxAge = -1
+		err := session.Save(request, writer)
+		if err != nil {
+			return false, errors.New("server error: failed to save user session")
+		}
+		return true, nil
+	}
+
+	return false, errors.New("no session available")
+}
+
 func (r *mutationResolver) CreateUser(ctx context.Context, data model.NewUser) (*model.User, error) {
 	var existing model.User
 	err := database.PostgreDB.Model(&existing).Where("username = ?", data.Username).Select()

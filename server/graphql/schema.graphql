@@ -63,6 +63,7 @@ input Login {
 
 type Mutation {
   login(data: Login!): User!
+  logout: Boolean!
 
   createUser(data: NewUser!): User!
   createPost(data: NewPost!): Post!
