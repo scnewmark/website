@@ -10,6 +10,7 @@ $goldenrod: #FBFCD4;
 $golden-yellow: #FFDD03;
 $blurple: #7289DA;
 $error: #FFC0CB;
+$sucess: #50C878;
 
 /* primary scheme */
 $scheme-main: $dark-but-not-black;
@@ -19,7 +20,12 @@ $scheme-invert: $goldenrod;
 $primary: $gold;
 $info: $goldenrod;
 $link: $gold;
+$dark: #2C2F33;
 $danger: $error;
+$text: #fffcec;
+
+/* text content */
+$text-strong: $golden-yellow;
 
 /* buttons */
 $button-border-color: $gold;
@@ -33,6 +39,15 @@ $navbar-breakpoint: 700px;
 /* code blocks */
 $code: $golden-yellow;
 $code-background: $dark-but-not-black;
+
+/* menus */
+$menu-item-color: $gold;
+$menu-item-hover-background-color: $goldenrod;
+$menu-item-active-background-color: $goldenrod;
+$menu-label-color: $primary;
+
+/* code */
+$pre-background: $dark;
 
 /* forms */
 $control-border-width: 2px;

@@ -1,13 +1,17 @@
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import { useQuery } from '@apollo/client';
+import { AuthProps, UseAuthResult } from '../src/types';
 import { me } from '../src/graphql/queries';
-import { AuthProps } from '../src/types';
+import { useEffect, useState } from 'react';
+import { useQuery } from '@apollo/client';
+import { useRouter } from 'next/router';
 
-const useAuth = (props: AuthProps = {}) => {
+const useAuth = (props: AuthProps = {}): UseAuthResult => {
 	const { data, loading, error } = useQuery(me);
 	const [err, setErr] = useState<string>('');
 	const router = useRouter();
+
+	const result = {
+		...data
+	};
 
 	useEffect(() => {
 		if (loading) return;
@@ -23,7 +27,7 @@ const useAuth = (props: AuthProps = {}) => {
 		}
 	}, [data, loading, error, props.redirectTo, props.redirectIfFound, router]);
 
-	return { data: data, error: err };
+	return { result: result, error: err };
 };
 
 export default useAuth;

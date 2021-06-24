@@ -31,7 +31,7 @@ const Field = (props: FieldProps) =>
 	</div>;
 
 const Login = () => {
-	useAuth({ redirectTo: '/', redirectIfFound: true });
+	useAuth({ redirectTo: '/dashboard', redirectIfFound: true });
 
 	const router = useRouter();
 
@@ -62,7 +62,7 @@ const Login = () => {
 				}
 			});
 			if (res.data) {
-				router.push('/');
+				router.push('/dashboard');
 			}
 		} catch (err) {
 			if (err.message === 'Failed to fetch') {
@@ -87,10 +87,10 @@ const Login = () => {
 						url: 'http://localhost:3000/login',
 						type: 'article'
 					}}
-					name="Login"
+					name="scnewmark • Login"
 					themeColor="#FBC403"
 				/>
-				<Navbar/>
+				<Navbar authed={false}/>
 				<div className={`container ${styles['form-container']}`}>
 					<div className="card" style={{ padding: 25, paddingTop: 10 }}>
 						<div className="card-content has-text-centered">

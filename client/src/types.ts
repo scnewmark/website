@@ -1,8 +1,30 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FunctionComponent, ReactNode } from 'react';
+import { DocumentNode } from '@apollo/client';
 
 export type LoginResult = {
 	login: User;
+};
+
+export type ScrollProps = {
+    enabled: boolean;
+}
+
+export type URL = {
+    _id: string;
+    key: string;
+    dest: string;
+    createdAt: number;
+    updatedAt: number;
+};
+
+export type Post = {
+    _id: string;
+    title: string;
+    description: string;
+    content: string;
+    createdAt: number;
+    updatedAt: number;
 };
 
 export type User = {
@@ -11,8 +33,8 @@ export type User = {
     password: string;
     bio: string;
     avatar: string;
-    createdAt: string;
-    updatedAt: string;
+    createdAt: number;
+    updatedAt: number;
 }
 
 export type SEOProps = {
@@ -62,7 +84,18 @@ export type NotificationProps = {
 };
 
 export type NavbarProps = {
-    data?: { data?: { me?: Partial<User> }}
+    authed?: boolean;
+};
+
+export type UseAuthResult = {
+    result: {
+        me: Partial<User>;
+    };
+    error: string;
+};
+
+export type UseRequestProps = {
+    query: DocumentNode;
 }
 
 export type NotificationState = NotificationProps[];

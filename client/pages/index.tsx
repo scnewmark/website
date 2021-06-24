@@ -6,11 +6,11 @@ import {
 } from '../components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NotificationContext } from './_app';
-import { NotificationProps, NotificationState } from '../src/types';
+import { NavbarProps, NotificationProps, NotificationState } from '../src/types';
 import { useState, useEffect } from 'react';
 import useAuth from '../hooks/useAuth';
 
-const Content = (data: any) =>
+const Content = (props: NavbarProps) =>
 	<>
 		<SEO
 			openGraph={{
@@ -21,11 +21,11 @@ const Content = (data: any) =>
 				url: 'http://localhost:3000',
 				type: 'article'
 			}}
-			name="Home"
+			name="scnewmark • Home"
 			themeColor="#FBC403"
 		/>
 		<Particles/>
-		<Navbar data={data}/>
+		<Navbar authed={props.authed}/>
 		<div className="container" style={{ maxWidth: 700, paddingLeft: 30, paddingRight: 30 }}>
 			<Card image="/images/scnewmark.png">
 				<div className="has-text-info">
@@ -53,7 +53,7 @@ const Content = (data: any) =>
 
 const Home = () => {
 	const [acceptedCookies, setAcceptedCookies] = useState<boolean>(false);
-	const { data, error } = useAuth();
+	const { result: { me }, error } = useAuth();
 
 	useEffect(() => {
 		const set = localStorage.getItem('closed-cookies-notification');
@@ -72,7 +72,7 @@ const Home = () => {
 		<NotificationContext.Consumer>
 			{({ notifications, createNotification }) =>
 				<div onLoad={() => createNotifications(notifications, createNotification)}>
-					<Content data={data}/>
+					<Content authed={!!me}/>
 				</div>
 			}
 		</NotificationContext.Consumer>

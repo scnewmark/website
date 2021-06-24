@@ -25,9 +25,9 @@ const Navbar = (props: NavbarProps) =>
 					</div>
 					<Link name="Contact" to="/contact" classes="navbar-item"/>
 					<div className="navbar-item has-dropdown is-hoverable">
-						<Link name="Dashboard" to="/dashboard" classes="navbar-link"/>
+						<Link name="Dashboard" to="/login" classes="navbar-link"/>
 						<div className="navbar-dropdown is-boxed">
-							<Link name={props?.data?.data?.me ? 'Logout' : 'Login'} to={props?.data?.data?.me ? '/logout' : '/login'} classes="navbar-item"/>
+							<Link name={props.authed ? 'Logout' : 'Login'} to={props.authed ? '/logout' : '/login'} classes="navbar-item"/>
 						</div>
 					</div>
 				</div>

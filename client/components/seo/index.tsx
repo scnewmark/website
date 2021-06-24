@@ -6,7 +6,7 @@ const formatPropKey = (key: string) => `og:${key.replace(/[A-Z]/g, (char: string
 const SEO = (props: SEOProps) =>
 	<>
 		<Head>
-			<title>scnewmark • {props.name}</title>
+			<title>{props.name}</title>
 			<link rel="icon" href="/images/scnewmark.png"/>
 
 			<meta property="og:site_name" content="Sam Newmark"/>

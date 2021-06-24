@@ -1,4 +1,4 @@
-import { faUser, faLock, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faLock, faExclamationTriangle, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { INotificationContext, NotificationProps, NotificationState } from '../src/types';
 import { config, library } from '@fortawesome/fontawesome-svg-core';
 import { AppProps } from 'next/dist/next-server/lib/router/router';
@@ -14,7 +14,7 @@ import Router from 'next/router';
 
 /* FontAwesome config */
 config.autoAddCss = false;
-library.add(faGithub, faUser, faLock, faExclamationTriangle);
+library.add(faGithub, faUser, faLock, faExclamationTriangle, faEdit, faTrash);
 
 /* Progress bar */
 nprogress.configure({

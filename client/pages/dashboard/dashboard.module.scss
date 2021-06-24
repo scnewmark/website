@@ -1,0 +1,49 @@
+.textarea-custom ::placeholder {
+    opacity: 0.45;
+    color: #FBFCD4;
+}
+
+.hoverable-icon:hover {
+    cursor: pointer;
+}
+
+.edit-icon {
+    transition: 15ms;
+    color: #FBC403;
+}
+
+.edit-icon:hover {
+    color: hsl(47, 98%, 80%);
+}
+
+.delete-icon {
+    transition: 15ms;
+    color: #FFC0CB;
+}
+
+.delete-icon:hover {
+    color: hsl(350, 100%, 78%);
+}
+
+.custom-checkbox {
+    span {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        vertical-align: top;
+        user-select: none;
+        flex-shrink: 0;
+    }
+
+    label {
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        vertical-align: top;
+        position: relative;
+    }
+
+    label:disabled {
+        cursor: not-alllowed;
+    }
+}
