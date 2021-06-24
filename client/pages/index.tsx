@@ -64,7 +64,7 @@ const Home = () => {
 	const createNotifications = (notifications: NotificationState, createNotification: (_: NotificationProps) => void) => {
 		const cookies = notifications.find(notif => notif.name === 'cookies');
 		const dataFetchFailed = notifications.find(notif => notif.name === 'data-fetch-failed');
-		if (!acceptedCookies && !cookies && !acceptedCookies) createNotification({ name: 'cookies', message: 'This site uses cookies to enhance user experience.', persist: true });
+		if (!acceptedCookies && !cookies) createNotification({ name: 'cookies', message: 'This site uses cookies to enhance user experience.', persist: true });
 		if (error && !dataFetchFailed) createNotification({ name: 'data-fetch-failed', color: '#FFC0CB', message: 'Failed to fetch data from API', persist: false });
 	};
 

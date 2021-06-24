@@ -11,17 +11,18 @@ import { useRouter } from 'next/router';
 import { DashboardTemplate } from '..';
 
 const Posts = () => {
-	const { result: { me } } = useAuth({ redirectTo: '/login' });
+	const { result: { me }, error } = useAuth({ redirectTo: '/login' });
 	const [deletePost] = useMutation<any, OperationVariables>(deletePostMutation);
 	const { data } = useRequest({ query: postsQuery });
 	const [posts, setPosts] = useState<Array<Partial<Post>>>(data?.posts);
 	const router = useRouter();
 
 	useEffect(() => {
+		if (error) router.push('/login');
 		if (data?.posts) {
 			setPosts(data?.posts);
 		}
-	}, [data]);
+	}, [data, error, router]);
 
 	// eslint-disable-next-line no-unused-vars
 	const handleDelete = async (id: string, notify: (props: NotificationProps) => void) => {

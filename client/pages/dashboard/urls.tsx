@@ -14,16 +14,17 @@ import { DashboardTemplate } from '.';
 
 const URLs = () => {
 	const [deleteURL] = useMutation<any, OperationVariables>(deleteURLMutation);
-	const { result: { me } } = useAuth({ redirectTo: '/login' });
+	const { result: { me }, error } = useAuth({ redirectTo: '/login' });
 	const { data } = useRequest({ query: urlsQuery });
 	const [urls, setURLs] = useState<Array<Partial<URL>>>(data?.urls);
 	const router = useRouter();
 
 	useEffect(() => {
+		if (error) router.push('/login');
 		if (data?.urls) {
 			setURLs(data?.urls);
 		}
-	}, [data]);
+	}, [data, error, router]);
 
 	// eslint-disable-next-line no-unused-vars
 	const handleDelete = async (key: string, notify: (props: NotificationProps) => void) => {

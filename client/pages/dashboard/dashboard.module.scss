@@ -24,26 +24,3 @@
 .delete-icon:hover {
     color: hsl(350, 100%, 78%);
 }
-
-.custom-checkbox {
-    span {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        vertical-align: top;
-        user-select: none;
-        flex-shrink: 0;
-    }
-
-    label {
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        vertical-align: top;
-        position: relative;
-    }
-
-    label:disabled {
-        cursor: not-alllowed;
-    }
-}

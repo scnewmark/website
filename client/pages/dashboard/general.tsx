@@ -7,15 +7,16 @@ import { useRouter } from 'next/router';
 import { DashboardTemplate } from '.';
 
 const General = () => {
-	const { result: { me } } = useAuth({ redirectTo: '/login' });
+	const { result: { me }, error } = useAuth({ redirectTo: '/login' });
 	const [bio, setBio] = useState<string>(me?.bio || '');
 	const [avatar, setAvatar] = useState<string>(me?.avatar || '');
 	const router = useRouter();
 
 	useEffect(() => {
+		if (error) router.push('/login');
 		if (me?.bio) setBio(me.bio);
 		if (me?.avatar) setAvatar(me.avatar);
-	}, [me, router]);
+	}, [me, router, error]);
 
 	const handleChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, dispatch: Dispatch<SetStateAction<string>>) => {
 		dispatch(event.target.value);

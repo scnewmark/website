@@ -1,5 +1,5 @@
 import { createPost as createPostMutation } from '../../../src/graphql/mutations';
-import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { OperationVariables, useMutation } from '@apollo/client';
 import { NotificationProps } from '../../../src/types';
 import { NotificationContext } from '../../_app';
@@ -14,12 +14,16 @@ import Image from 'next/image';
 
 const CreatePost = () => {
 	const [createPost] = useMutation<any, OperationVariables>(createPostMutation);
-	const { result: { me } } = useAuth({ redirectTo: '/login' });
+	const { result: { me }, error } = useAuth({ redirectTo: '/login' });
 	const [content, setContent] = useState<string>('');
 	const [description, setDescription] = useState<string>('');
 	const [title, setTitle] = useState<string>('');
 	const [scroll, setScroll] = useState<boolean>(true);
 	const router = useRouter();
+
+	useEffect(() => {
+		if (error) router.push('/login');
+	}, [router, error]);
 
 	// eslint-disable-next-line no-unused-vars
 	const loadSaved = (notify: (props: NotificationProps) => void) => {
