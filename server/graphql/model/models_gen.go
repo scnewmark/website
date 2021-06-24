@@ -8,9 +8,10 @@ type Login struct {
 }
 
 type NewPost struct {
-	Title       string `json:"title"`
-	Description string `json:"description"`
-	Content     string `json:"content"`
+	Title       string   `json:"title"`
+	Description string   `json:"description"`
+	Content     string   `json:"content"`
+	Tags        []string `json:"tags"`
 }
 
 type NewURL struct {
@@ -26,12 +27,21 @@ type NewUser struct {
 }
 
 type Post struct {
-	ID          string `json:"_id"`
-	Title       string `json:"title"`
-	Description string `json:"description"`
-	Content     string `json:"content"`
-	CreatedAt   int    `json:"createdAt"`
-	UpdatedAt   int    `json:"updatedAt"`
+	ID          string   `json:"_id"`
+	Title       string   `json:"title"`
+	Description string   `json:"description"`
+	Content     string   `json:"content"`
+	Tags        []string `json:"tags"`
+	CreatedAt   int      `json:"createdAt"`
+	UpdatedAt   int      `json:"updatedAt"`
+}
+
+type PostEdit struct {
+	ID          string   `json:"id"`
+	Title       *string  `json:"title"`
+	Description *string  `json:"description"`
+	Tags        []string `json:"tags"`
+	Content     *string  `json:"content"`
 }
 
 type URL struct {
@@ -42,6 +52,11 @@ type URL struct {
 	UpdatedAt int    `json:"updatedAt"`
 }
 
+type URLEdit struct {
+	Key  string  `json:"key"`
+	Dest *string `json:"dest"`
+}
+
 type User struct {
 	ID        string `json:"_id"`
 	Username  string `json:"username"`
@@ -50,4 +65,10 @@ type User struct {
 	Avatar    string `json:"avatar"`
 	CreatedAt int    `json:"createdAt"`
 	UpdatedAt int    `json:"updatedAt"`
+}
+
+type UserEdit struct {
+	ID     string  `json:"id"`
+	Bio    *string `json:"bio"`
+	Avatar *string `json:"avatar"`
 }

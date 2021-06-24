@@ -100,6 +100,7 @@ func (r *mutationResolver) CreatePost(ctx context.Context, data model.NewPost) (
 		Title:       data.Title,
 		Description: data.Description,
 		Content:     data.Content,
+		Tags:        data.Tags,
 		CreatedAt:   int(time.Now().Unix()),
 		UpdatedAt:   int(time.Now().Unix()),
 	}
@@ -137,6 +138,84 @@ func (r *mutationResolver) CreateURL(ctx context.Context, data model.NewURL) (*m
 	}
 
 	return url, nil
+}
+
+func (r *mutationResolver) EditUser(ctx context.Context, data model.UserEdit) (*model.User, error) {
+	if data.Avatar == nil && data.Bio == nil {
+		return r.Query().User(ctx, data.ID)
+	}
+
+	if data.Avatar != nil {
+		user := model.User{ID: data.ID, Avatar: *data.Avatar}
+		_, err := database.PostgreDB.Model(&user).Set("avatar = ?avatar").Where("id = ?id").Update()
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	if data.Bio != nil {
+		user := model.User{ID: data.ID, Bio: *data.Bio}
+		_, err := database.PostgreDB.Model(&user).Set("bio = ?bio").Where("id = ?id").Update()
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return r.Query().User(ctx, data.ID)
+}
+
+func (r *mutationResolver) EditPost(ctx context.Context, data model.PostEdit) (*model.Post, error) {
+	if data.Title == nil && data.Description == nil && data.Content == nil {
+		return r.Query().Post(ctx, data.ID)
+	}
+
+	if data.Title != nil {
+		post := model.Post{ID: data.ID, Title: *data.Title}
+		_, err := database.PostgreDB.Model(&post).Set("title = ?title").Where("id = ?id").Update()
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	if data.Description != nil {
+		post := model.Post{ID: data.ID, Description: *data.Description}
+		_, err := database.PostgreDB.Model(&post).Set("description = ?description").Where("id = ?id").Update()
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	if data.Content != nil {
+		post := model.Post{ID: data.ID, Content: *data.Content}
+		_, err := database.PostgreDB.Model(&post).Set("content = ?content").Where("id = ?id").Update()
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	if data.Tags != nil && len(data.Tags) > 0 {
+		post := model.Post{ID: data.ID, Tags: data.Tags}
+		_, err := database.PostgreDB.Model(&post).Set("tags = ?tags").Where("id = ?id").Update()
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return r.Query().Post(ctx, data.ID)
+}
+
+func (r *mutationResolver) EditURL(ctx context.Context, data model.URLEdit) (*model.URL, error) {
+	if data.Dest == nil {
+		return r.Query().URL(ctx, data.Key)
+	}
+
+	url := model.URL{Key: data.Key, Dest: *data.Dest}
+	_, err := database.PostgreDB.Model(&url).Set("dest = ?dest").Where("key = ?key").Update()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Query().URL(ctx, data.Key)
 }
 
 func (r *mutationResolver) DeleteUser(ctx context.Context, username string) (bool, error) {
@@ -244,6 +323,7 @@ func (r *queryResolver) Posts(ctx context.Context) ([]*model.Post, error) {
 			ID:          post.ID,
 			Title:       post.Title,
 			Description: post.Description,
+			Tags:        post.Tags,
 			Content:     post.Content,
 			CreatedAt:   post.CreatedAt,
 			UpdatedAt:   post.UpdatedAt,

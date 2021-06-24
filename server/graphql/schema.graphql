@@ -13,6 +13,7 @@ type Post {
   title: String!
   description: String!
   content: String!
+  tags: [String!]!
   createdAt: Int!
   updatedAt: Int!
 }
@@ -49,6 +50,7 @@ input NewPost {
   title: String!
   description: String!
   content: String!
+  tags: [String!]!
 }
 
 input NewURL {
@@ -61,6 +63,25 @@ input Login {
   password: String!
 }
 
+input UserEdit {
+  id: String!
+  bio: String
+  avatar: String
+}
+
+input URLEdit {
+  key: String!
+  dest: String
+}
+
+input PostEdit {
+  id: String!
+  title: String
+  description: String
+  tags: [String!]
+  content: String
+}
+
 type Mutation {
   login(data: Login!): User!
   logout: Boolean!
@@ -68,6 +89,10 @@ type Mutation {
   createUser(data: NewUser!): User!
   createPost(data: NewPost!): Post!
   createURL(data: NewURL!): URL!
+
+  editUser(data: UserEdit!): User!
+  editPost(data: PostEdit!): Post!
+  editURL(data: URLEdit!): URL!
 
   deleteUser(username: String!): Boolean!
   deletePost(id: String!): Boolean!
