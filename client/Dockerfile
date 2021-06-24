@@ -8,8 +8,10 @@ RUN yarn install
 
 COPY . /usr/src/app/
 
-RUN yarn build
+# Production only
+# RUN yarn build
 
 EXPOSE 3000
 
+# Run yarn start if in production
 CMD [ "yarn", "dev"]
