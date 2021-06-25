@@ -31,6 +31,7 @@ const Field = (props: FieldProps) =>
 const Login = () => {
 	const [username, setUsername] = useState<InputField>({ value: '', error: '' });
 	const [password, setPassword] = useState<InputField>({ value: '', error: '' });
+	const [loading, setLoading] = useState<boolean>(false);
 	const [, login] = useLoginMutation();
 	const router = useRouter();
 	const [{ data, fetching }] = useMeQuery({ requestPolicy: 'network-only' });
@@ -52,7 +53,10 @@ const Login = () => {
 
 	// eslint-disable-next-line no-unused-vars
 	const handleSubmit = async (notify: (props: NotificationProps) => void) => {
+		setLoading(true);
 		const res = await login({ username: username.value, password: password.value });
+		setLoading(false);
+
 		if (res.data) {
 			router.push('/dashboard');
 		} else if (res.error) {
@@ -109,7 +113,7 @@ const Login = () => {
 							<p className="control">
 								<NotificationContext.Consumer>
 									{({ createNotification }) =>
-										<button className="button is-primary" onClick={() => handleSubmit(createNotification)}>Login</button>
+										<button className={`button is-primary ${loading ? 'is-loading' : ''}`} onClick={() => handleSubmit(createNotification)}>Login</button>
 									}
 								</NotificationContext.Consumer>
 							</p>
