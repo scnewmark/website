@@ -5,10 +5,8 @@ import {
 	SEO
 } from '../components';
 import { useRouter } from 'next/router';
-import useAuth from '../hooks/useAuth';
 
 const ErrorNotFound = () => {
-	const { result: { me } } = useAuth();
 	const router = useRouter();
 
 	return (
@@ -19,7 +17,7 @@ const ErrorNotFound = () => {
 					name="scnewmark • 404"
 				/>
 				<Particles/>
-				<Navbar authed={!!me}/>
+				<Navbar/>
 				<div className="container" style={{ maxWidth: 700, paddingLeft: 30, paddingRight: 30 }}>
 					<Card>
 						<p className="title has-text-link"><strong>404</strong></p>

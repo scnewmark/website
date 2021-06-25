@@ -1,4 +1,4 @@
-import type { Cookie, CookieProps } from '../src/types';
+import type { Cookie, CookieProps } from '../types';
 
 const setCookie = (props: CookieProps) => {
 	let cookie = `${props.key}=${props.value};`;

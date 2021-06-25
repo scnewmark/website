@@ -14,6 +14,7 @@ import (
 	"github.com/scnewmark/website-new/server/graphql/generated"
 	"github.com/scnewmark/website-new/server/graphql/model"
 	"github.com/scnewmark/website-new/server/middleware"
+	"github.com/scnewmark/website-new/server/utils"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -100,6 +101,7 @@ func (r *mutationResolver) CreatePost(ctx context.Context, data model.NewPost) (
 		Title:       data.Title,
 		Description: data.Description,
 		Content:     data.Content,
+		Type:        data.Type,
 		Tags:        data.Tags,
 		CreatedAt:   int(time.Now().Unix()),
 		UpdatedAt:   int(time.Now().Unix()),
@@ -310,6 +312,21 @@ func (r *queryResolver) Post(ctx context.Context, id string) (*model.Post, error
 	return &post, nil
 }
 
+func (r *queryResolver) PostByTitle(ctx context.Context, title string) (*model.Post, error) {
+	posts, err := r.Posts(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, post := range posts {
+		if utils.NormalizeTitle(post.Title) == title {
+			return post, nil
+		}
+	}
+
+	return nil, fmt.Errorf("could not find post associated with title like %s", title)
+}
+
 func (r *queryResolver) Posts(ctx context.Context) ([]*model.Post, error) {
 	var posts []model.Post
 	err := database.PostgreDB.Model(&posts).Select()
@@ -323,6 +340,7 @@ func (r *queryResolver) Posts(ctx context.Context) ([]*model.Post, error) {
 			ID:          post.ID,
 			Title:       post.Title,
 			Description: post.Description,
+			Type:        post.Type,
 			Tags:        post.Tags,
 			Content:     post.Content,
 			CreatedAt:   post.CreatedAt,

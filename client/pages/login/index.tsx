@@ -1,12 +1,10 @@
-import { FieldProps, InputField, LoginResult, NotificationProps } from '../../src/types';
-import { login as loginMutation } from '../../src/graphql/mutations';
-import { OperationVariables, useMutation } from '@apollo/client';
+import { FieldProps, InputField, NotificationProps } from '../../src/types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { SEO, Navbar, Particles } from '../../components';
-import { NotificationContext } from '../_app';
-import useAuth from '../../hooks/useAuth';
+import { NotificationContext } from '../../src/notifications';
 import styles from './login.module.scss';
+import { useLoginMutation, useMeQuery } from '../../src/generated/graphql';
 import { useRouter } from 'next/router';
 
 const Field = (props: FieldProps) =>
@@ -31,14 +29,14 @@ const Field = (props: FieldProps) =>
 	</div>;
 
 const Login = () => {
-	useAuth({ redirectTo: '/dashboard', redirectIfFound: true });
-
-	const router = useRouter();
-
-	const [login] = useMutation<LoginResult, OperationVariables>(loginMutation);
-
 	const [username, setUsername] = useState<InputField>({ value: '', error: '' });
 	const [password, setPassword] = useState<InputField>({ value: '', error: '' });
+	const [, login] = useLoginMutation();
+	const router = useRouter();
+	const [{ data, fetching }] = useMeQuery({ requestPolicy: 'network-only' });
+
+	if (fetching) return <></>;
+	if (data) router.push('/dashboard');
 
 	const handleChange = (event: any, dispatch: Dispatch<SetStateAction<InputField>>) => {
 		let error: string = '';
@@ -54,18 +52,11 @@ const Login = () => {
 
 	// eslint-disable-next-line no-unused-vars
 	const handleSubmit = async (notify: (props: NotificationProps) => void) => {
-		try {
-			const res = await login({
-				variables: {
-					username: username.value,
-					password: password.value
-				}
-			});
-			if (res.data) {
-				router.push('/dashboard');
-			}
-		} catch (err) {
-			if (err.message === 'Failed to fetch') {
+		const res = await login({ username: username.value, password: password.value });
+		if (res.data) {
+			router.push('/dashboard');
+		} else if (res.error) {
+			if (res.error.message === '[Network] Failed to fetch') {
 				notify({ name: 'login-fetch-failed', message: 'Failed to fetch data from API', color: '#FFC0CB', persist: false });
 				return;
 			}
@@ -90,7 +81,7 @@ const Login = () => {
 					name="scnewmark • Login"
 					themeColor="#FBC403"
 				/>
-				<Navbar authed={false}/>
+				<Navbar/>
 				<div className={`container ${styles['form-container']}`}>
 					<div className="card" style={{ padding: 25, paddingTop: 10 }}>
 						<div className="card-content has-text-centered">

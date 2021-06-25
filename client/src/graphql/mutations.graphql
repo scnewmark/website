@@ -1,0 +1,59 @@
+mutation Login($username: String!, $password: String!) {
+  login(data: { username: $username, password: $password }) {
+    username
+  }
+}
+
+mutation DeleteURL($key: String!) {
+  deleteURL(key: $key)
+}
+
+mutation NewPost($title: String!, $description: String!, $content: String!, $tags: [String!]!, $type: PostType!) {
+  createPost(
+    data: { title: $title, description: $description, content: $content, tags: $tags, type: $type }
+  ) {
+    _id
+  }
+}
+
+mutation CreateURL($key: String!, $dest: String!) {
+  createURL(data: { key: $key, dest: $dest }) {
+    _id
+  }
+}
+
+mutation DeletePost($id: String!) {
+  deletePost(id: $id)
+}
+
+mutation EditPost(
+  $id: String!
+  $title: String!
+  $description: String!
+  $content: String!
+  $tags: [String!]!
+) {
+  editPost(
+    data: {
+      id: $id
+      description: $description
+      content: $content
+      tags: $tags
+      title: $title
+    }
+  ) {
+    _id
+  }
+}
+
+mutation EditUser($id: String!, $bio: String!, $avatar: String!) {
+  editUser(data: { id: $id, bio: $bio, avatar: $avatar }) {
+    _id
+  }
+}
+
+mutation EditURL($key: String!, $dest: String!) {
+  editURL(data: { key: $key, dest: $dest }) {
+    _id
+  }
+}

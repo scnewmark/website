@@ -4,13 +4,12 @@ import {
 	Particles,
 	SEO
 } from '../components';
+import { NotificationProps, NotificationState } from '../src/types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { NotificationContext } from './_app';
-import { NavbarProps, NotificationProps, NotificationState } from '../src/types';
+import { NotificationContext } from '../src/notifications';
 import { useState, useEffect } from 'react';
-import useAuth from '../hooks/useAuth';
 
-const Content = (props: NavbarProps) =>
+const Content = () =>
 	<>
 		<SEO
 			openGraph={{
@@ -25,7 +24,7 @@ const Content = (props: NavbarProps) =>
 			themeColor="#FBC403"
 		/>
 		<Particles/>
-		<Navbar authed={props.authed}/>
+		<Navbar/>
 		<div className="container" style={{ maxWidth: 700, paddingLeft: 30, paddingRight: 30 }}>
 			<Card image="/images/scnewmark.png">
 				<div className="has-text-info">
@@ -53,7 +52,6 @@ const Content = (props: NavbarProps) =>
 
 const Home = () => {
 	const [acceptedCookies, setAcceptedCookies] = useState<boolean>(false);
-	const { result: { me }, error } = useAuth();
 
 	useEffect(() => {
 		const set = localStorage.getItem('closed-cookies-notification');
@@ -63,16 +61,16 @@ const Home = () => {
 	// eslint-disable-next-line no-unused-vars
 	const createNotifications = (notifications: NotificationState, createNotification: (_: NotificationProps) => void) => {
 		const cookies = notifications.find(notif => notif.name === 'cookies');
-		const dataFetchFailed = notifications.find(notif => notif.name === 'data-fetch-failed');
+		// const dataFetchFailed = notifications.find(notif => notif.name === 'data-fetch-failed');
 		if (!acceptedCookies && !cookies) createNotification({ name: 'cookies', message: 'This site uses cookies to enhance user experience.', persist: true });
-		if (error && !dataFetchFailed) createNotification({ name: 'data-fetch-failed', color: '#FFC0CB', message: 'Failed to fetch data from API', persist: false });
+		// if (error && !dataFetchFailed) createNotification({ name: 'data-fetch-failed', color: '#FFC0CB', message: 'Failed to fetch data from API', persist: false });
 	};
 
 	return (
 		<NotificationContext.Consumer>
 			{({ notifications, createNotification }) =>
 				<div onLoad={() => createNotifications(notifications, createNotification)}>
-					<Content authed={!!me}/>
+					<Content/>
 				</div>
 			}
 		</NotificationContext.Consumer>

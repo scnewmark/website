@@ -1,47 +1,48 @@
-import { deletePost as deletePostMutation } from '../../../src/graphql/mutations';
-import { OperationVariables, useMutation } from '@apollo/client';
-import { posts as postsQuery } from '../../../src/graphql/queries';
+import { NotificationContext } from '../../../src/notifications';
+import { useDeletePostMutation, useMeQuery, usePostsQuery } from '../../../src/generated/graphql';
 import { NotificationProps, Post } from '../../../src/types';
-import useRequest from '../../../hooks/useRequest';
-import { NotificationContext } from '../../_app';
-import useAuth from '../../../hooks/useAuth';
 import { useEffect, useState } from 'react';
 import { Link } from '../../../components';
 import { useRouter } from 'next/router';
 import { DashboardTemplate } from '..';
 
 const Posts = () => {
-	const { result: { me }, error } = useAuth({ redirectTo: '/login' });
-	const [deletePost] = useMutation<any, OperationVariables>(deletePostMutation);
-	const { data } = useRequest({ query: postsQuery });
-	const [posts, setPosts] = useState<Array<Partial<Post>>>(data?.posts);
+	const [{ fetching: fetch, error: err }] = useMeQuery({ requestPolicy: 'network-only' });
+	const [{ data, fetching, error }] = usePostsQuery({ requestPolicy: 'network-only' });
+	const [, deletePost] = useDeletePostMutation();
+	const [posts, setPosts] = useState<Array<Partial<Post>>>([]);
 	const router = useRouter();
 
 	useEffect(() => {
-		if (error) router.push('/login');
-		if (data?.posts) {
-			setPosts(data?.posts);
+		if (fetching) return;
+		if (error) return;
+		if (data) {
+			setPosts(data.posts);
 		}
-	}, [data, error, router]);
+	}, [data, fetching, error]);
+
+
+	if (fetch) return <></>;
+	if (err) router.push('/login');
 
 	// eslint-disable-next-line no-unused-vars
 	const handleDelete = async (id: string, notify: (props: NotificationProps) => void) => {
 		try {
-			await deletePost({
-				variables: {
-					id: id
-				}
-			});
-			setPosts(posts.filter(post => post._id !== id));
-			notify({ name: `delete-success-${id}`, message: `Successfully deleted post ${id}`, color: '#50C878', persist: false });
-		} catch (err) {
-			notify({ name: `no-post-exists-${(Math.random() * 30) * (Math.random() * 15)}`, message: `Could not delete post: ${err.message}`, color: '#FFC0CB', persist: false });
+			const res = await deletePost({ id: id });
+			if (res.data?.deletePost) {
+				setPosts(posts.filter(post => post._id !== id));
+				notify({ name: `delete-success-${id}`, message: `Successfully deleted post ${id}`, color: '#50C878', persist: false });
+			} else {
+				notify({ name: `no-post-exists-${(Math.random() * 30) * (Math.random() * 15)}`, message: `Could not delete post: ${res.error}`, color: '#FFC0CB', persist: false });
+			}
+		} catch {
+			notify({ name: `failed-to-fetch`, message: `Failed to fetch data from API`, color: '#FFC0CB', persist: false });
 			return;
 		}
 	};
 
 	return (
-		<DashboardTemplate name="Posts" router={router} data={me}>
+		<DashboardTemplate name="Posts" router={router} data={null}>
 			<div className="container has-text-right">
 				<Link to="/dashboard/posts/create" classes="button is-primary" name="Create Post"/>
 			</div>
@@ -52,13 +53,22 @@ const Posts = () => {
 							<div className="card-content">
 								<p className="title has-text-primary">{post.title}</p>
 								<p className="subtitle has-text-info">{post.description}</p>
-								<p className="content" dangerouslySetInnerHTML={{ __html: post.content ?? '' }}></p>
+								<div className="field is-grouped is-grouped-multiline">
+									{post.tags?.map((tag, tidx) =>
+										<div key={tidx} className="control">
+											<div className="tags has-addons">
+												<div className="tag is-primary">{tag}</div>
+											</div>
+										</div>
+									)}
+								</div>
+								<br/>
 								<div className="buttons">
-									<div className="button is-success has-text-dark">Details</div>
-									<div className="button is-primary">Edit</div>
+									<button className="button is-success has-text-dark" disabled>Details</button>
+									<button className="button is-primary" onClick={() => router.push(`/dashboard/posts/edit?id=${post._id}`)}>Edit</button>
 									<NotificationContext.Consumer>
 										{({ createNotification }) =>
-											<div className="button is-danger" onClick={() => handleDelete(post._id!, createNotification)}>Delete</div>
+											<button className="button is-danger" onClick={() => handleDelete(post._id!, createNotification)}>Delete</button>
 										}</NotificationContext.Consumer>
 								</div>
 							</div>

@@ -34,7 +34,10 @@ $link-hover: $golden-yellow;
 /* navbar */
 $navbar-item-color: $scheme-invert;
 $navbar-dropdown-item-hover-color: $gold;
-$navbar-breakpoint: 700px;
+$navbar-breakpoint: 600px;
+
+/* footer */
+$footer-background-color: $dark;
 
 /* code blocks */
 $code: $golden-yellow;
@@ -55,6 +58,8 @@ $input-background-color: $not-quite-black;
 $input-border-color: transparent;
 $input-icon-active-color: $blurple;
 $input-icon-color: $blurple;
+$input-disabled-background-color: $not-quite-black;
+$input-disabled-border-color: $dark;
 $input-shadow: none;
 
 /* nprogress */

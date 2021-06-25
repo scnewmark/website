@@ -3,9 +3,9 @@ import {
 	SEO,
 	Particles
 } from '../../components';
+import { useMeQuery } from '../../src/generated/graphql';
 import { NextRouter, useRouter } from 'next/router';
-import { ReactNode, useEffect } from 'react';
-import useAuth from '../../hooks/useAuth';
+import { ReactNode } from 'react';
 
 type ListElementProps = {
     name: string;
@@ -45,7 +45,7 @@ export const DashboardTemplate = (props: DashboardProps) =>
 			name={`Dashboard •  ${props.name}`}
 			themeColor="#FBC403"
 		/>
-		<Navbar authed={props.data?.me !== null}/>
+		<Navbar/>
 		<Particles/>
 		<div className="container" style={{ maxWidth: 1500, paddingLeft: 30, paddingRight: 30, top: '10vh' }}>
 			<div className="columns">
@@ -67,12 +67,11 @@ export const DashboardTemplate = (props: DashboardProps) =>
 	</div>;
 
 const Dashboard = () => {
+	const [{ data, error }] = useMeQuery({ requestPolicy: 'network-only' });
 	const router = useRouter();
-	const { result: { me } } = useAuth({ redirectTo: '/login' });
 
-	useEffect(() => {
-		if (me) router.push('/dashboard/general');
-	}, [me, router]);
+	if (error) router.push('/login');
+	if (data) router.push('/dashboard/general');
 
 	return <></>;
 };

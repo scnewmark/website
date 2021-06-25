@@ -1,9 +1,31 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FunctionComponent, ReactNode } from 'react';
-import { DocumentNode } from '@apollo/client';
 
-export type LoginResult = {
-	login: User;
+export type EditURLServerRequest = {
+    req: {
+        __NEXT_INIT_QUERY: { key: string; };
+    };
+};
+
+export type EditPostServerRequest = {
+    req: {
+        __NEXT_INIT_QUERY: { id: string; };
+    };
+};
+
+export type BlogProps = {
+    urqlState: {
+        [key: string]: any;
+        data: string;
+    }
+}
+
+export type EditURLProps = {
+    editKey: string;
+};
+
+export type EditPostProps = {
+    editID: string;
 };
 
 export type ScrollProps = {
@@ -23,8 +45,17 @@ export type Post = {
     title: string;
     description: string;
     content: string;
+    tags: string[];
     createdAt: number;
     updatedAt: number;
+};
+
+export type CreatePostState = {
+    title: string;
+    description: string;
+    content: string;
+    tags: string;
+    type: string;
 };
 
 export type User = {
@@ -83,21 +114,6 @@ export type NotificationProps = {
     color?: string;
 };
 
-export type NavbarProps = {
-    authed?: boolean;
-};
-
-export type UseAuthResult = {
-    result: {
-        me: Partial<User>;
-    };
-    error: string;
-};
-
-export type UseRequestProps = {
-    query: DocumentNode;
-}
-
 export type NotificationState = NotificationProps[];
 
 export interface INotificationContext {
@@ -105,11 +121,6 @@ export interface INotificationContext {
 	/* eslint-disable no-unused-vars */
 	createNotification: (props: NotificationProps) => void;
 	deleteNotification: (name: string) => void;
-}
-
-export type AuthProps = {
-    redirectTo?: string;
-    redirectIfFound?: boolean;
 }
 
 export type WithNotificationProps = {

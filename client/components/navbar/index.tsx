@@ -1,10 +1,9 @@
-import { NavbarProps } from '../../src/types';
 import styles from './navbar.module.scss';
 import { Link } from '..';
 
-const Navbar = (props: NavbarProps) =>
+const Navbar = () =>
 	<section>
-		<nav className={`navbar is-transparent ${styles['custom-nav']}`}>
+		<nav className={`navbar is-fixed-top is-transparent ${styles['custom-nav']}`}>
 			<div className="navbar-brand">
 				<div className="navbar-burger" data-target="navbar">
 					<span></span>
@@ -17,22 +16,13 @@ const Navbar = (props: NavbarProps) =>
 				<div className="navbar-end">
 					<Link name="Home" to="/" classes="navbar-item"/>
 					<Link name="Blog" to="/blog" classes="navbar-item"/>
-					<div className="navbar-item has-dropdown is-hoverable">
-						<Link name="Projects" to="/projects" classes="navbar-link"/>
-						<div className="navbar-dropdown is-boxed">
-							<Link name="Chess AI" to="/projects/chess-ai" classes="navbar-item"/>
-						</div>
-					</div>
+					<Link name="Portfolio" to="/r/portfolio" classes="navbar-item"/>
 					<Link name="Contact" to="/contact" classes="navbar-item"/>
-					<div className="navbar-item has-dropdown is-hoverable">
-						<Link name="Dashboard" to="/login" classes="navbar-link"/>
-						<div className="navbar-dropdown is-boxed">
-							<Link name={props.authed ? 'Logout' : 'Login'} to={props.authed ? '/logout' : '/login'} classes="navbar-item"/>
-						</div>
-					</div>
+					<Link name="Dashboard" to="/login" classes="navbar-item"/>
 				</div>
 			</div>
 		</nav>
+		<br/>
 	</section>;
 
 export default Navbar;

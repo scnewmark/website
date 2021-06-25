@@ -1,56 +1,55 @@
-import { deleteURL as deleteURLMutation } from '../../src/graphql/mutations';
-import { OperationVariables, useMutation } from '@apollo/client';
+import { useDeleteUrlMutation, useMeQuery, useUrLsQuery } from '../../../src/generated/graphql';
+import { NotificationContext } from '../../../src/notifications';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { urls as urlsQuery } from '../../src/graphql/queries';
-import { NotificationProps, URL } from '../../src/types';
-import useRequest from '../../hooks/useRequest';
-import { NotificationContext } from '../_app';
-import styles from './dashboard.module.scss';
+import { NotificationProps, URL } from '../../../src/types';
+import styles from '../dashboard.module.scss';
 import { useEffect, useState } from 'react';
-import useAuth from '../../hooks/useAuth';
-import { Link } from '../../components';
+import { Link } from '../../../components';
 import { useRouter } from 'next/router';
-import { DashboardTemplate } from '.';
+import { DashboardTemplate } from '../';
 
 const URLs = () => {
-	const [deleteURL] = useMutation<any, OperationVariables>(deleteURLMutation);
-	const { result: { me }, error } = useAuth({ redirectTo: '/login' });
-	const { data } = useRequest({ query: urlsQuery });
-	const [urls, setURLs] = useState<Array<Partial<URL>>>(data?.urls);
 	const router = useRouter();
+	const [{ data }] = useUrLsQuery({ requestPolicy: 'network-only' });
+	const [urls, setURLs] = useState<Array<Partial<URL>>>([]);
+	const [, deleteURL] = useDeleteUrlMutation();
 
 	useEffect(() => {
-		if (error) router.push('/login');
-		if (data?.urls) {
-			setURLs(data?.urls);
+		if (data) {
+			setURLs(data.urls);
 		}
-	}, [data, error, router]);
+	}, [data]);
+
+	const [{ fetching, error }] = useMeQuery({ requestPolicy: 'network-only' });
+
+	if (fetching) return <></>;
+	if (error) router.push('/login');
 
 	// eslint-disable-next-line no-unused-vars
 	const handleDelete = async (key: string, notify: (props: NotificationProps) => void) => {
 		try {
-			await deleteURL({
-				variables: {
-					key: key
-				}
-			});
-			setURLs(urls.filter(url => url.key !== key));
-			notify({ name: `delete-success-${key}`, message: `Successfully deleted URL ${key}`, color: '#50C878', persist: false });
+			const res = await deleteURL({ key: key });
+			if (res.data?.deleteURL) {
+				setURLs(urls.filter(url => url.key !== key));
+				notify({ name: `delete-success-${key}`, message: `Successfully deleted URL ${key}`, color: '#50C878', persist: false });
+			} else {
+				notify({ name: `no-url-exists-${(Math.random() * 30) * (Math.random() * 15)}`, message: `Could not delete URL: ${res.error}`, color: '#FFC0CB', persist: false });
+			}
 		} catch (err) {
-			notify({ name: `no-url-exists-${(Math.random() * 30) * (Math.random() * 15)}`, message: `Could not delete URL: ${err.message}`, color: '#FFC0CB', persist: false });
+			notify({ name: `failed-to-fetch`, message: `Failed to fetch data from API`, color: '#FFC0CB', persist: false });
 			return;
 		}
 	};
 
 	return (
-		<DashboardTemplate name="URLs" router={router} data={me}>
+		<DashboardTemplate name="URLs" router={router} data={null}>
 			<div className="container has-text-right">
 				<Link to="/dashboard/urls/create" classes="button is-primary" name="Create URL"/>
 			</div>
 			<br/>
 			<div className="container" style={{ height: 600, overflow: 'scroll' }}>
 				{urls &&
-				<table className="container is-fluid table">
+				<table className="table container is-fluid">
 					<thead>
 						<tr>
 							<th className="has-text-primary">ID</th>
@@ -60,16 +59,16 @@ const URLs = () => {
 						</tr>
 					</thead>
 					<tbody>
-						{Array.from(urls)?.sort((a, b) => b.updatedAt! - a.updatedAt!).map((url, idx) =>
+						{urls.sort((a, b) => b.updatedAt! - a.updatedAt!).map((url, idx) =>
 							<tr key={idx} className="container has-text-info">
 								<th className="has-text-primary">{idx + 1}</th>
-								<td>{url.dest}</td>
+								<td><a href={url.dest}>{url.dest}</a></td>
 								<td>{url.key}</td>
 								<td>
 									<NotificationContext.Consumer>
 										{({ createNotification }) =>
 											<>
-												<span className={`icon ${styles['hoverable-icon']}`} onClick={() => handleDelete(url.key!, createNotification)}>
+												<span className={`icon ${styles['hoverable-icon']}`} onClick={() => router.push(`/dashboard/urls/edit?key=${url.key}`)}>
 													<i>
 														<FontAwesomeIcon className={`${styles['edit-icon']}`} icon={['fas', 'edit']} size="1x"/>
 													</i>

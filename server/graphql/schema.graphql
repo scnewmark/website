@@ -8,11 +8,18 @@ type User {
   updatedAt: Int!
 }
 
+enum PostType {
+  PUBLIC
+  UNLISTED
+  PRIVATE
+}
+
 type Post {
   _id: String!
   title: String!
   description: String!
   content: String!
+  type: PostType!
   tags: [String!]!
   createdAt: Int!
   updatedAt: Int!
@@ -33,6 +40,7 @@ type Query {
   users: [User!]!
 
   post(id: String!): Post!
+  postByTitle(title: String!): Post!
   posts: [Post!]!
 
   url(key: String!): URL!
@@ -50,6 +58,7 @@ input NewPost {
   title: String!
   description: String!
   content: String!
+  type: PostType!
   tags: [String!]!
 }
 

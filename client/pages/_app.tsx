@@ -1,20 +1,29 @@
-import { faUser, faLock, faExclamationTriangle, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { INotificationContext, NotificationProps, NotificationState } from '../src/types';
+import { faUser, faLock, faExclamationTriangle, faEdit, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { NotificationProps, NotificationState } from '../src/types';
 import { config, library } from '@fortawesome/fontawesome-svg-core';
 import { AppProps } from 'next/dist/next-server/lib/router/router';
+import { NotificationContext } from '../src/notifications';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import '@fortawesome/fontawesome-svg-core/styles.css';
-import { createContext, useState } from 'react';
-import { ApolloProvider } from '@apollo/client';
 import { Notification } from '../components';
-import client from '../src/apollo-client';
+import client from '../src/graphql-client';
 import nprogress from 'nprogress';
+import { Provider } from 'urql';
 import '../public/globals.scss';
 import Router from 'next/router';
+import { useState } from 'react';
 
 /* FontAwesome config */
 config.autoAddCss = false;
-library.add(faGithub, faUser, faLock, faExclamationTriangle, faEdit, faTrash);
+library.add(
+	faGithub,
+	faUser,
+	faLock,
+	faExclamationTriangle,
+	faEdit,
+	faTrash,
+	faSearch
+);
 
 /* Progress bar */
 nprogress.configure({
@@ -23,12 +32,6 @@ nprogress.configure({
 
 Router.events.on('routeChangeStart', () => nprogress.start());
 Router.events.on('routeChangeComplete', () => nprogress.done());
-
-export const NotificationContext = createContext<INotificationContext>({
-	notifications: [],
-	createNotification: () => null,
-	deleteNotification: () => null
-});
 
 /* Next.js config */
 const App = ({ Component, pageProps }: AppProps) => {
@@ -55,16 +58,16 @@ const App = ({ Component, pageProps }: AppProps) => {
 	};
 
 	return (
-		<NotificationContext.Provider value={ctx}>
-			<ApolloProvider client={client}>
+		<Provider value={client}>
+			<NotificationContext.Provider value={ctx}>
 				<Component {...pageProps}/>
 				<div style={{ position: 'absolute', bottom: '1vh', padding: 10 }}>
 					{notifications.map((notification, idx) =>
 						<Notification key={idx} message={notification.message} name={notification.name} color={notification.color} persist={notification.persist}/>
 					)}
 				</div>
-			</ApolloProvider>
-		</NotificationContext.Provider>
+			</NotificationContext.Provider>
+		</Provider>
 	);
 };
 

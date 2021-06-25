@@ -1,0 +1,47 @@
+query Me {
+  me {
+    _id
+    bio
+    avatar
+  }
+}
+
+query Posts {
+  posts {
+    _id
+    title
+    description
+    content
+    tags
+    createdAt
+    updatedAt
+  }
+}
+
+query URLs {
+  urls {
+    _id
+    key
+    dest
+    createdAt
+    updatedAt
+  }
+}
+
+query GetURL($key: String!) {
+  url(key: $key) {
+    key
+    dest
+  }
+}
+
+query GetPost($id: String!) {
+  post(id: $id) {
+    _id
+    title
+    description
+    content
+    tags
+    type
+  }
+}
