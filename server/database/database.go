@@ -2,6 +2,7 @@ package database
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"time"
 
@@ -10,6 +11,14 @@ import (
 	"github.com/gorilla/securecookie"
 	"github.com/gorilla/sessions"
 	"github.com/scnewmark/website-new/server/graphql/model"
+	"github.com/scnewmark/website-new/server/utils"
+)
+
+// Postgres authentication credentials
+const (
+	PostgresHost     = `batyr.db.elephantsql.com`
+	PostgresUser     = `cuzaywpd`
+	PostgresPassword = `x6ZlYSxLIlEnnpxBNrYxI-pNBqVU4vmh `
 )
 
 // PostgreDB is the PostgreSQL database
@@ -20,28 +29,30 @@ var Store = sessions.NewCookieStore(securecookie.GenerateRandomKey(32))
 
 // CreatePostgre creates the PostgreSQL client
 func CreatePostgre() {
-	PostgreDB = pg.Connect(&pg.Options{
-		User:     "postgres",
-		Password: "postgres",
-		Addr:     "database:5432",
-		OnConnect: func(ctx context.Context, cn *pg.Conn) error {
-			start := time.Now()
-			err := cn.Ping(ctx)
-			end := time.Now()
-			if err != nil {
-				log.Fatalln(err)
-			}
-			log.Println("info - connected to PostgreSQL database")
-			log.Printf("info - PostgreSQL database latency: %dms\n", end.Sub(start).Milliseconds())
-			return nil
-		},
-	})
+	opts, err := pg.ParseURL("postgres://cuzaywpd:x6ZlYSxLIlEnnpxBNrYxI-pNBqVU4vmh@batyr.db.elephantsql.com/cuzaywpd?sslmode=require")
+	if err != nil {
+		utils.Log(utils.Writer, "error", err.Error())
+	}
 
-	err := createSchema(PostgreDB)
+	opts.OnConnect = func(ctx context.Context, cn *pg.Conn) error {
+		start := time.Now()
+		err := cn.Ping(ctx)
+		end := time.Now()
+		if err != nil {
+			log.Fatalln(err)
+		}
+		utils.Log(utils.Writer, "info", "connected to PostgreSQL database")
+		utils.Log(utils.Writer, "info", fmt.Sprintf("database latency: %dms", end.Sub(start).Milliseconds()))
+		return nil
+	}
+
+	PostgreDB = pg.Connect(opts)
+
+	err = createSchema(PostgreDB)
 	if err != nil {
 		log.Fatalln(err)
 	}
-	log.Println("info - created PostgreSQL schema")
+	utils.Log(utils.Writer, "info", "created PostgreSQL schema")
 }
 
 func createSchema(db *pg.DB) error {

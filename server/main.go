@@ -16,6 +16,7 @@ import (
 	"github.com/scnewmark/website-new/server/graphql"
 	"github.com/scnewmark/website-new/server/graphql/generated"
 	"github.com/scnewmark/website-new/server/middleware"
+	"github.com/scnewmark/website-new/server/utils"
 )
 
 const port = 8000
@@ -36,7 +37,7 @@ func main() {
 	mux.Handle("/graphql", srv)
 
 	var addr = fmt.Sprintf(":%d", port)
-	log.Printf("info - server live at %s%s\n", hostname, addr)
+	utils.Log(utils.Writer, "info", fmt.Sprintf("server live at %s%s", hostname, addr))
 
 	cors := cors.New(cors.Options{
 		AllowedOrigins: []string{"http://localhost:3000"},
