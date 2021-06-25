@@ -117,7 +117,7 @@ export const getStaticPaths = async () => {
     `).toPromise();
 
 	return {
-		paths: result?.data.posts.map((post: Post) => ({ params: { id: normalizeTitle(post.title) } })),
+		paths: result?.data?.posts.map((post: Post) => ({ params: { id: normalizeTitle(post.title) } })) || [],
 		fallback: 'blocking'
 	};
 };
