@@ -22,7 +22,7 @@ const Portfolio = () => {
 					title: 'Portfolio',
 					description: 'Personal portfolio.',
 					site: 'http://localhost:3000/portfolio',
-					image: '/images/scnewmark.png',
+					image: '/images/scnewmark.jpg',
 					url: 'http://localhost:3000/portfolio',
 					type: 'article'
 				}}

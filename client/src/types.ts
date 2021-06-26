@@ -1,4 +1,5 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { NextRouter } from 'next/router';
 import { FunctionComponent, ReactNode } from 'react';
 
 export type EditURLServerRequest = {
@@ -120,7 +121,34 @@ export interface INotificationContext {
 export type WithNotificationProps = {
     Content: FunctionComponent;
     notification: NotificationProps;
-}
+};
+
+export type SearchResult = {
+    tags: string[];
+    title: string;
+};
+
+export type ListElementProps = {
+    name: string;
+    selected: string;
+    router: NextRouter;
+};
+
+export type DashboardProps = {
+    children?: ReactNode;
+    router: NextRouter;
+    data: any;
+    name: string;
+};
+
+export type PostListProps = {
+    posts: Array<Post>;
+    router: NextRouter;
+};
+
+export type URLProps = {
+	urls: Array<URL>;
+};
 
 export type CookieProps = {
     maxAge?: number;

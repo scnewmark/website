@@ -28,7 +28,7 @@ const ViewPost = (props: PostProps) =>
 					title: props.post.title,
 					description: props.post.description,
 					site: `http://localhost:3000/blog/${normalizeTitle(props.post.title)}`,
-					image: '/images/scnewmark.png',
+					image: '/images/scnewmark.jpg',
 					url: `http://localhost:3000/blog/${normalizeTitle(props.post.title)}`,
 					type: 'article'
 				}}

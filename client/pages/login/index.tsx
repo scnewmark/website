@@ -1,10 +1,10 @@
 import { FieldProps, InputField, NotificationProps } from '../../src/types';
+import { useLoginMutation, useMeQuery } from '../../src/generated/graphql';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { NotificationContext } from '../../src/notifications';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { SEO, Navbar, Particles } from '../../components';
-import { NotificationContext } from '../../src/notifications';
 import styles from './login.module.scss';
-import { useLoginMutation, useMeQuery } from '../../src/generated/graphql';
 import { useRouter } from 'next/router';
 
 const Field = (props: FieldProps) =>
@@ -78,7 +78,7 @@ const Login = () => {
 						title: 'Login',
 						description: 'Dashboard',
 						site: 'http://localhost:3000/login',
-						image: '/images/scnewmark.png',
+						image: '/images/scnewmark.jpg',
 						url: 'http://localhost:3000/login',
 						type: 'article'
 					}}

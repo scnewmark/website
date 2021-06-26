@@ -17,7 +17,7 @@ const Content = () =>
 				title: 'Home',
 				description: 'My personal website.',
 				site: 'http://localhost:3000',
-				image: '/images/scnewmark.png',
+				image: '/images/scnewmark.jpg',
 				url: 'http://localhost:3000',
 				type: 'article'
 			}}

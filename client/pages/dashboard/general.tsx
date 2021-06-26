@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, SetStateAction, useState, useEffect } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useEditUserMutation, useMeQuery } from '../../src/generated/graphql';
 import { NotificationContext } from '../../src/notifications';
 import { NotificationProps } from '../../src/types';
@@ -49,8 +49,8 @@ const General = () => {
 
 	return (
 		<DashboardTemplate name="General" router={router} data={null}>
-			<div className="container" style={{ height: 600, overflow: 'scroll' }}>
-				<div className={styles['textarea-custom']} style={{ paddingTop: 15 }}>
+			<div className="container">
+				<div className={styles['textarea-custom']}>
 					<p className="title has-text-primary">Bio</p>
 					<textarea
 						className="textarea has-text-info"

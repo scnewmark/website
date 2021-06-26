@@ -3,22 +3,9 @@ import {
 	SEO,
 	Particles
 } from '../../components';
+import { DashboardProps, ListElementProps } from '../../src/types';
 import { useMeQuery } from '../../src/generated/graphql';
-import { NextRouter, useRouter } from 'next/router';
-import { ReactNode } from 'react';
-
-type ListElementProps = {
-    name: string;
-    selected: string;
-    router: NextRouter;
-};
-
-type DashboardProps = {
-    children?: ReactNode;
-    router: NextRouter;
-    data: any;
-    name: string;
-};
+import { useRouter } from 'next/router';
 
 const normalizePath = (path: string) => path.toLowerCase();
 
@@ -38,7 +25,7 @@ export const DashboardTemplate = (props: DashboardProps) =>
 				title: 'Dashboard',
 				description: 'Private dashboard.',
 				site: 'http://localhost:3000/dashboard',
-				image: '/images/scnewmark.png',
+				image: '/images/scnewmark.jpg',
 				url: 'http://localhost:3000/dashboard',
 				type: 'article'
 			}}
@@ -47,7 +34,7 @@ export const DashboardTemplate = (props: DashboardProps) =>
 		/>
 		<Navbar/>
 		<Particles/>
-		<div className="container" style={{ maxWidth: 1500, paddingLeft: 30, paddingRight: 30, top: '10vh' }}>
+		<div className="container" style={{ maxWidth: 1500, paddingLeft: 30, paddingRight: 30, paddingTop: 125 }}>
 			<div className="columns">
 				<div className="column" style={{ maxWidth: 200 }}>
 					<aside className="menu" style={{ zIndex: 5 }}>

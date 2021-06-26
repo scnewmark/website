@@ -156,7 +156,7 @@ const EditPost = (props: EditPostProps) => {
 							<div className="media">
 								<div className="media-left">
 									<figure className="image is-48x48">
-										<Image src="/images/scnewmark.png" alt="Profile icon." width={96} height={96}/>
+										<Image src="/images/scnewmark.jpg" alt="Profile icon." width={96} height={96}/>
 									</figure>
 								</div>
 								<div className="media-content">

@@ -2,6 +2,7 @@ import { PostType, useMeQuery, useNewPostMutation } from '../../../src/generated
 import { CreatePostState, NotificationProps } from '../../../src/types';
 import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import { NotificationContext } from '../../../src/notifications';
+import parseTagString from '../../../src/utils/parseTagString';
 import styles from '../dashboard.module.scss';
 import { Scroll } from '../../../components';
 import { useRouter } from 'next/router';
@@ -18,7 +19,6 @@ const DEFAULT_POST = {
 	type: 'PUBLIC'
 };
 
-const parseTagString = (tags: string) => tags.trim().replace(/,$/g, '').split(',').map(tag => tag.trim());
 const parseType = (type: string) => type === 'PRIVATE' ? PostType.Private : type === 'UNLISTED' ? PostType.Unlisted : PostType.Public;
 
 const CreatePost = () => {
@@ -142,7 +142,7 @@ const CreatePost = () => {
 							<div className="media">
 								<div className="media-left">
 									<figure className="image is-48x48">
-										<Image src="/images/scnewmark.png" alt="Profile icon." width={96} height={96}/>
+										<Image src="/images/scnewmark.jpg" alt="Profile icon." width={96} height={96}/>
 									</figure>
 								</div>
 								<div className="media-content">

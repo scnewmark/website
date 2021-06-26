@@ -1,24 +1,17 @@
-import { useDeleteUrlMutation, useMeQuery, useUrLsQuery } from '../../../src/generated/graphql';
+import { useDeleteUrlMutation, useMeQuery } from '../../../src/generated/graphql';
+import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
 import { NotificationContext } from '../../../src/notifications';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { NotificationProps, URL } from '../../../src/types';
+import { NotificationProps, URLProps } from '../../../src/types';
 import styles from '../dashboard.module.scss';
-import { useEffect, useState } from 'react';
 import { Link } from '../../../components';
+import { initUrqlClient } from 'next-urql';
 import { useRouter } from 'next/router';
 import { DashboardTemplate } from '../';
 
-const URLs = () => {
+const URLs = ({ urls }: URLProps) => {
 	const router = useRouter();
-	const [{ data }] = useUrLsQuery({ requestPolicy: 'network-only' });
-	const [urls, setURLs] = useState<Array<Partial<URL>>>([]);
 	const [, deleteURL] = useDeleteUrlMutation();
-
-	useEffect(() => {
-		if (data) {
-			setURLs(data.urls);
-		}
-	}, [data]);
 
 	const [{ fetching, error }] = useMeQuery({ requestPolicy: 'network-only' });
 
@@ -30,7 +23,7 @@ const URLs = () => {
 		try {
 			const res = await deleteURL({ key: key });
 			if (res.data?.deleteURL) {
-				setURLs(urls.filter(url => url.key !== key));
+				router.push('/dashboard/urls');
 				notify({ name: `delete-success-${key}`, message: `Successfully deleted URL ${key}`, color: '#50C878', persist: false });
 			} else {
 				notify({ name: `no-url-exists-${(Math.random() * 30) * (Math.random() * 15)}`, message: `Could not delete URL: ${res.error}`, color: '#FFC0CB', persist: false });
@@ -48,7 +41,6 @@ const URLs = () => {
 			</div>
 			<br/>
 			<div className="container" style={{ height: 600, overflow: 'scroll' }}>
-				{urls &&
 				<table className="table container is-fluid">
 					<thead>
 						<tr>
@@ -86,10 +78,35 @@ const URLs = () => {
 						)}
 					</tbody>
 				</table>
-				}
 			</div>
 		</DashboardTemplate>
 	);
 };
 
 export default URLs;
+
+export const getServerSideProps = async () => {
+	const cache = ssrExchange({ isClient: false });
+	const client = initUrqlClient({
+		url: 'https://scnewmark.cloud.libraryofcode.org/graphql',
+		exchanges: [dedupExchange, cacheExchange, cache, fetchExchange],
+		requestPolicy: 'network-only'
+	}, false);
+
+	const result = await client?.query(`
+    query {
+        urls {
+			key
+			dest
+			createdAt
+			updatedAt
+		}
+    }
+    `).toPromise();
+
+	return {
+		props: {
+			urls: result!.data.urls
+		}
+	};
+};
