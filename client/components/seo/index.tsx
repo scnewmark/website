@@ -7,7 +7,7 @@ const SEO = (props: SEOProps) =>
 	<>
 		<Head>
 			<title>{props.name}</title>
-			<link rel="icon" href="/images/scnewmark.jpg"/>
+			<link rel="icon" href="/images/favicon.ico"/>
 
 			<meta property="og:site_name" content="Sam Newmark"/>
 			{Object.keys(props.openGraph).map((key: string, idx: number) =>
