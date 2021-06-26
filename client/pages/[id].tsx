@@ -38,6 +38,7 @@ const Redirect = (props: RedirectProps) => {
 						type: 'article'
 					}}
 					name={`scnewmark • ${props.url.key}`}
+					themeColor="#FBC403"
 				/>
 			</div>
 		</>
