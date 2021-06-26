@@ -54,7 +54,11 @@ const ViewPost = (props: PostProps) =>
 					<div className="media-content">
 						<p className="title is-6" style={{ paddingTop: 5, color: '#fffcec' }}>Sam Newmark
 							<span style={{ color: '#FFDD03', paddingLeft: 10, paddingRight: 10 }}>/</span>
-							{props.post.createdAt}
+							{
+								`${new Date(props.post.createdAt * 1000).toDateString()} at 
+								${new Date(props.post.createdAt * 1000).getHours() % 12}:${new Date(props.post.createdAt * 1000).getMinutes()} 
+								${new Date(props.post.createdAt * 1000).getHours() > 11 ? 'PM' : 'AM'}`
+							}
 						</p>
 					</div>
 				</div>
