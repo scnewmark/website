@@ -17,7 +17,7 @@ const PostList = (props: PostListProps) => {
 
 	return (
 		<>
-			{props.posts?.length > 0 ? props.posts.sort((a, b) => b.updatedAt! - a.updatedAt!).map((post, idx) =>
+			{props.posts?.length > 0 ? props.posts.map((post, idx) =>
 				<div className={styles['clickable-div']} key={idx} onClick={() => props.router.push(`/blog/${normalizeTitle(post.title)}`)}>
 					<div className="card-content">
 						<div className="columns">
@@ -25,7 +25,7 @@ const PostList = (props: PostListProps) => {
 								<p className="title is-5 has-text-info">{post.title}</p>
 							</div>
 							<div className="column">
-								<p className="view-count has-text-danger has-text-weight-light has-text-right">0 views</p>
+								<p className="view-count has-text-danger has-text-weight-light has-text-right">{post.views} view{post.views === 1 ? '' : 's'}</p>
 							</div>
 						</div>
 						<p className="subtitle is-6 has-text-weight-light">{post.description}</p>
@@ -128,12 +128,12 @@ const Blog = (props: any) => {
 						<>
 							<div className="container">
 								<div className="title is-2 has-text-primary">Most Popular</div>
-								<PostList router={router} posts={posts?.filter(post => post.title === 'ffffff')}/>
+								<PostList router={router} posts={posts?.filter(post => post.views > 0).sort((a, b) => b.views - a.views).slice(0, Math.min(3, posts.length))}/>
 							</div>
 							<br/>
 							<div className="container">
 								<div className="title is-2 has-text-primary">All Posts</div>
-								<PostList router={router} posts={posts}/>
+								<PostList router={router} posts={posts.sort((a, b) => b.updatedAt - a.updatedAt)}/>
 							</div>
 						</>
 					}
@@ -168,6 +168,7 @@ export const getStaticProps = async () => {
                 description
                 content
                 tags
+				views
                 createdAt
                 updatedAt
             }

@@ -57,3 +57,7 @@ mutation EditURL($key: String!, $dest: String!) {
     _id
   }
 }
+
+mutation UpdatePostViews($id: String!) {
+  updatePostViews(id: $id)
+}

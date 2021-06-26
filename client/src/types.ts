@@ -47,6 +47,7 @@ export type Post = {
     description: string;
     content: string;
     tags: string[];
+    views: number;
     createdAt: number;
     updatedAt: number;
 };

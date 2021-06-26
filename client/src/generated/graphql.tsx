@@ -1,4 +1,3 @@
-/* eslint-disable */
 import gql from 'graphql-tag';
 import * as Urql from 'urql';
 export type Maybe<T> = T | null;
@@ -28,6 +27,7 @@ export type Mutation = {
   editUser: User;
   editPost: Post;
   editURL: Url;
+  updatePostViews: Scalars['Boolean'];
   deleteUser: Scalars['Boolean'];
   deletePost: Scalars['Boolean'];
   deleteURL: Scalars['Boolean'];
@@ -66,6 +66,11 @@ export type MutationEditPostArgs = {
 
 export type MutationEditUrlArgs = {
   data: UrlEdit;
+};
+
+
+export type MutationUpdatePostViewsArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -111,6 +116,7 @@ export type Post = {
   content: Scalars['String'];
   type: PostType;
   tags: Array<Scalars['String']>;
+  views: Scalars['Int'];
   createdAt: Scalars['Int'];
   updatedAt: Scalars['Int'];
 };
@@ -303,6 +309,16 @@ export type EditUrlMutation = (
   ) }
 );
 
+export type UpdatePostViewsMutationVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type UpdatePostViewsMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'updatePostViews'>
+);
+
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -450,6 +466,15 @@ export const EditUrlDocument = gql`
 
 export function useEditUrlMutation() {
   return Urql.useMutation<EditUrlMutation, EditUrlMutationVariables>(EditUrlDocument);
+};
+export const UpdatePostViewsDocument = gql`
+    mutation UpdatePostViews($id: String!) {
+  updatePostViews(id: $id)
+}
+    `;
+
+export function useUpdatePostViewsMutation() {
+  return Urql.useMutation<UpdatePostViewsMutation, UpdatePostViewsMutationVariables>(UpdatePostViewsDocument);
 };
 export const MeDocument = gql`
     query Me {
