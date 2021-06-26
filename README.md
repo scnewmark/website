@@ -4,7 +4,7 @@ The second iteration of my personal website, using [Next.js](https://nextjs.org)
 
 ## To-Do
 
-- [ ] Add route for URL redirects
+- [x] Add route for URL redirects
 - [ ] Add contact route
 - [x] Add post searching
     - [x] Search by title
