@@ -9,5 +9,5 @@ The second iteration of my personal website, using [Next.js](https://nextjs.org)
 - [x] Add post searching
     - [x] Search by title
     - [x] Search by tag
-- [ ] Add analytics
-    - [ ] Blog post view count
+- [x] Add analytics
+    - [x] Blog post view count
