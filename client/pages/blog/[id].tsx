@@ -97,6 +97,12 @@ export const getStaticProps = async (res: StaticPathsResult) => {
     }
     `).toPromise();
 
+	if (!result?.data) {
+		return {
+			notFound: true
+		};
+	}
+
 	return {
 		props: {
 			post: result!.data.postByTitle

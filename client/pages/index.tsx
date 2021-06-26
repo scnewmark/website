@@ -36,13 +36,13 @@ const Content = () =>
 				<div className="card-content">
 					<div className="has-text-info">
 						<strong className="has-text-info">Hello there!</strong> My name is Sam, and I&apos;m a student at the
-						<a target="_blank" rel="noreferrer" href="https://scnewmark.vercel.app/r/lasa">{' '}Liberal Arts
+						<a target="_blank" rel="noreferrer" href="https://scnewmark.vercel.app/lasa">{' '}Liberal Arts
 						and Science Academy</a> in Austin, Texas. I enjoy coding, and am currently
 						interested in artificial intelligence and machine learning. In my free time,
 						I like to read and take photographs.
 					</div>
 					<p className="buttons" style={{ paddingTop: 15 }}>
-						<a target="_blank" rel="noreferrer" href="https://github.com/scnewmark">
+						<a target="_blank" rel="noreferrer" href="https://scnewmark.vercel.app/github">
 							<button className="button has-text-info" style={{ borderRadius: 10, padding: 22 }}>
 								<span className="icon">
 									<i>
@@ -69,9 +69,7 @@ const Home = () => {
 	// eslint-disable-next-line no-unused-vars
 	const createNotifications = (notifications: NotificationState, createNotification: (_: NotificationProps) => void) => {
 		const cookies = notifications.find(notif => notif.name === 'cookies');
-		// const dataFetchFailed = notifications.find(notif => notif.name === 'data-fetch-failed');
 		if (!acceptedCookies && !cookies) createNotification({ name: 'cookies', message: 'This site uses cookies to enhance user experience.', persist: true });
-		// if (error && !dataFetchFailed) createNotification({ name: 'data-fetch-failed', color: '#FFC0CB', message: 'Failed to fetch data from API', persist: false });
 	};
 
 	return (
