@@ -27,7 +27,7 @@ library.add(
 
 /* Progress bar */
 nprogress.configure({
-	showSpinner: true
+	showSpinner: false
 });
 
 Router.events.on('routeChangeStart', () => nprogress.start());

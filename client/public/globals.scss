@@ -20,7 +20,7 @@ $scheme-invert: $goldenrod;
 $primary: $gold;
 $info: $goldenrod;
 $link: $gold;
-$dark: #2C2F33;
+$dark: $dark-but-not-black;
 $danger: $error;
 $text: #fffcec;
 
@@ -35,6 +35,7 @@ $link-hover: $golden-yellow;
 $navbar-item-color: $scheme-invert;
 $navbar-dropdown-item-hover-color: $gold;
 $navbar-breakpoint: 600px;
+$navbar-item-hover-background-color: $not-quite-black;
 
 /* footer */
 $footer-background-color: $dark;
