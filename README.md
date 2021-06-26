@@ -6,8 +6,8 @@ The second iteration of my personal website, using [Next.js](https://nextjs.org)
 
 - [ ] Add route for URL redirects
 - [ ] Add contact route
-- [ ] Add post searching
-    - [ ] Search by title
-    - [ ] Search by tag
+- [x] Add post searching
+    - [x] Search by title
+    - [x] Search by tag
 - [ ] Add analytics
     - [ ] Blog post view count
