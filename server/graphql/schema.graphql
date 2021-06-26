@@ -21,6 +21,7 @@ type Post {
   content: String!
   type: PostType!
   tags: [String!]!
+  views: Int!
   createdAt: Int!
   updatedAt: Int!
 }
@@ -102,6 +103,8 @@ type Mutation {
   editUser(data: UserEdit!): User!
   editPost(data: PostEdit!): Post!
   editURL(data: URLEdit!): URL!
+
+  updatePostViews(id: String!): Boolean!
 
   deleteUser(username: String!): Boolean!
   deletePost(id: String!): Boolean!

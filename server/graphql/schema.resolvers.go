@@ -106,6 +106,7 @@ func (r *mutationResolver) CreatePost(ctx context.Context, data model.NewPost) (
 		Title:       data.Title,
 		Description: data.Description,
 		Content:     data.Content,
+		Views:       0,
 		Type:        data.Type,
 		Tags:        data.Tags,
 		CreatedAt:   int(time.Now().Unix()),
@@ -223,6 +224,20 @@ func (r *mutationResolver) EditURL(ctx context.Context, data model.URLEdit) (*mo
 	}
 
 	return r.Query().URL(ctx, data.Key)
+}
+
+func (r *mutationResolver) UpdatePostViews(ctx context.Context, id string) (bool, error) {
+	post, err := r.Query().Post(ctx, id)
+	if err != nil {
+		return false, err
+	}
+
+	_, err = database.PostgreDB.Model(post).Set("views = ?", post.Views+1).Where("id = ?", post.ID).Update()
+	if err != nil {
+		return false, err
+	}
+
+	return true, nil
 }
 
 func (r *mutationResolver) DeleteUser(ctx context.Context, username string) (bool, error) {
@@ -346,6 +361,7 @@ func (r *queryResolver) Posts(ctx context.Context) ([]*model.Post, error) {
 			Title:       post.Title,
 			Description: post.Description,
 			Type:        post.Type,
+			Views:       post.Views,
 			Tags:        post.Tags,
 			Content:     post.Content,
 			CreatedAt:   post.CreatedAt,

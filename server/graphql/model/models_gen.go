@@ -40,6 +40,7 @@ type Post struct {
 	Content     string   `json:"content"`
 	Type        PostType `json:"type"`
 	Tags        []string `json:"tags"`
+	Views       int      `json:"views"`
 	CreatedAt   int      `json:"createdAt"`
 	UpdatedAt   int      `json:"updatedAt"`
 }

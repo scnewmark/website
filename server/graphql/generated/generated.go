@@ -44,17 +44,18 @@ type DirectiveRoot struct {
 
 type ComplexityRoot struct {
 	Mutation struct {
-		CreatePost func(childComplexity int, data model.NewPost) int
-		CreateURL  func(childComplexity int, data model.NewURL) int
-		CreateUser func(childComplexity int, data model.NewUser) int
-		DeletePost func(childComplexity int, id string) int
-		DeleteURL  func(childComplexity int, key string) int
-		DeleteUser func(childComplexity int, username string) int
-		EditPost   func(childComplexity int, data model.PostEdit) int
-		EditURL    func(childComplexity int, data model.URLEdit) int
-		EditUser   func(childComplexity int, data model.UserEdit) int
-		Login      func(childComplexity int, data model.Login) int
-		Logout     func(childComplexity int) int
+		CreatePost      func(childComplexity int, data model.NewPost) int
+		CreateURL       func(childComplexity int, data model.NewURL) int
+		CreateUser      func(childComplexity int, data model.NewUser) int
+		DeletePost      func(childComplexity int, id string) int
+		DeleteURL       func(childComplexity int, key string) int
+		DeleteUser      func(childComplexity int, username string) int
+		EditPost        func(childComplexity int, data model.PostEdit) int
+		EditURL         func(childComplexity int, data model.URLEdit) int
+		EditUser        func(childComplexity int, data model.UserEdit) int
+		Login           func(childComplexity int, data model.Login) int
+		Logout          func(childComplexity int) int
+		UpdatePostViews func(childComplexity int, id string) int
 	}
 
 	Post struct {
@@ -66,6 +67,7 @@ type ComplexityRoot struct {
 		Title       func(childComplexity int) int
 		Type        func(childComplexity int) int
 		UpdatedAt   func(childComplexity int) int
+		Views       func(childComplexity int) int
 	}
 
 	Query struct {
@@ -107,6 +109,7 @@ type MutationResolver interface {
 	EditUser(ctx context.Context, data model.UserEdit) (*model.User, error)
 	EditPost(ctx context.Context, data model.PostEdit) (*model.Post, error)
 	EditURL(ctx context.Context, data model.URLEdit) (*model.URL, error)
+	UpdatePostViews(ctx context.Context, id string) (bool, error)
 	DeleteUser(ctx context.Context, username string) (bool, error)
 	DeletePost(ctx context.Context, id string) (bool, error)
 	DeleteURL(ctx context.Context, key string) (bool, error)
@@ -264,6 +267,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.Logout(childComplexity), true
 
+	case "Mutation.updatePostViews":
+		if e.complexity.Mutation.UpdatePostViews == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updatePostViews_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdatePostViews(childComplexity, args["id"].(string)), true
+
 	case "Post.content":
 		if e.complexity.Post.Content == nil {
 			break
@@ -319,6 +334,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Post.UpdatedAt(childComplexity), true
+
+	case "Post.views":
+		if e.complexity.Post.Views == nil {
+			break
+		}
+
+		return e.complexity.Post.Views(childComplexity), true
 
 	case "Query.me":
 		if e.complexity.Query.Me == nil {
@@ -567,6 +589,7 @@ type Post {
   content: String!
   type: PostType!
   tags: [String!]!
+  views: Int!
   createdAt: Int!
   updatedAt: Int!
 }
@@ -648,6 +671,8 @@ type Mutation {
   editUser(data: UserEdit!): User!
   editPost(data: PostEdit!): Post!
   editURL(data: URLEdit!): URL!
+
+  updatePostViews(id: String!): Boolean!
 
   deleteUser(username: String!): Boolean!
   deletePost(id: String!): Boolean!
@@ -807,6 +832,21 @@ func (ec *executionContext) field_Mutation_login_args(ctx context.Context, rawAr
 		}
 	}
 	args["data"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_updatePostViews_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+		arg0, err = ec.unmarshalNString2string(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["id"] = arg0
 	return args, nil
 }
 
@@ -1252,6 +1292,48 @@ func (ec *executionContext) _Mutation_editURL(ctx context.Context, field graphql
 	return ec.marshalNURL2ᚖgithubᚗcomᚋscnewmarkᚋwebsiteᚑnewᚋserverᚋgraphqlᚋmodelᚐURL(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _Mutation_updatePostViews(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_updatePostViews_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdatePostViews(rctx, args["id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _Mutation_deleteUser(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -1586,6 +1668,41 @@ func (ec *executionContext) _Post_tags(ctx context.Context, field graphql.Collec
 	res := resTmp.([]string)
 	fc.Result = res
 	return ec.marshalNString2ᚕstringᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Post_views(ctx context.Context, field graphql.CollectedField, obj *model.Post) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Post",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Views, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Post_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.Post) (ret graphql.Marshaler) {
@@ -3875,6 +3992,11 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "updatePostViews":
+			out.Values[i] = ec._Mutation_updatePostViews(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		case "deleteUser":
 			out.Values[i] = ec._Mutation_deleteUser(ctx, field)
 			if out.Values[i] == graphql.Null {
@@ -3939,6 +4061,11 @@ func (ec *executionContext) _Post(ctx context.Context, sel ast.SelectionSet, obj
 			}
 		case "tags":
 			out.Values[i] = ec._Post_tags(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "views":
+			out.Values[i] = ec._Post_views(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
