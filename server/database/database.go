@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 	"time"
 
 	"github.com/go-pg/pg/v10"
@@ -14,22 +15,21 @@ import (
 	"github.com/scnewmark/website-new/server/utils"
 )
 
-// Postgres authentication credentials
-const (
-	PostgresHost     = `batyr.db.elephantsql.com`
-	PostgresUser     = `cuzaywpd`
-	PostgresPassword = `x6ZlYSxLIlEnnpxBNrYxI-pNBqVU4vmh `
+// Variables
+var (
+	PostgreDB *pg.DB
+	Store     = sessions.NewCookieStore(securecookie.GenerateRandomKey(32))
 )
-
-// PostgreDB is the PostgreSQL database
-var PostgreDB *pg.DB
-
-// Store is the session store
-var Store = sessions.NewCookieStore(securecookie.GenerateRandomKey(32))
 
 // CreatePostgre creates the PostgreSQL client
 func CreatePostgre() {
-	opts, err := pg.ParseURL("postgres://cuzaywpd:x6ZlYSxLIlEnnpxBNrYxI-pNBqVU4vmh@batyr.db.elephantsql.com/cuzaywpd?sslmode=require")
+	var (
+		PostgresHost     = os.Getenv("POSTGRES_HOST")
+		PostgresUsername = os.Getenv("POSTGRES_USERNAME")
+		PostgresPassword = os.Getenv("POSTGRES_PASSWORD")
+	)
+
+	opts, err := pg.ParseURL(fmt.Sprintf("postgres://%s:%s@%s/%s?sslmode=require", PostgresUsername, PostgresPassword, PostgresHost, PostgresUsername))
 	if err != nil {
 		utils.Log(utils.Writer, "error", err.Error())
 	}
@@ -63,15 +63,9 @@ func createSchema(db *pg.DB) error {
 	}
 
 	for _, model := range models {
-		err := db.Model(model).DropTable(&orm.DropTableOptions{
-			IfExists: true,
-		})
-		if err != nil {
-			return err
-		}
-
-		err = db.Model(model).CreateTable(&orm.CreateTableOptions{
-			Temp: false,
+		err := db.Model(model).CreateTable(&orm.CreateTableOptions{
+			Temp:        false,
+			IfNotExists: true,
 		})
 		if err != nil {
 			return err

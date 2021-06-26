@@ -1,7 +1,7 @@
 import { createClient } from 'urql';
 
 const client = createClient({
-	url: 'http://localhost:8000/graphql',
+	url: 'https://scnewmark.cloud.libraryofcode.org/graphql',
 	maskTypename: true,
 	fetchOptions: {
 		credentials: 'include'

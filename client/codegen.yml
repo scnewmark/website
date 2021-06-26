@@ -1,5 +1,5 @@
 overwrite: true
-schema: "http://localhost:8000/graphql"
+schema: "https://scnewmark.cloud.libraryofcode.org/graphql"
 documents: "src/graphql/**.graphql"
 generates:
   src/generated/graphql.tsx:

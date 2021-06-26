@@ -125,7 +125,7 @@ export default Blog;
 export const getStaticProps = async () => {
 	const cache = ssrExchange({ isClient: false });
 	const client = initUrqlClient({
-		url: 'http://localhost:8000/graphql',
+		url: 'https://scnewmark.cloud.libraryofcode.org/graphql',
 		exchanges: [dedupExchange, cacheExchange, cache, fetchExchange],
 		requestPolicy: 'network-only'
 	}, false);

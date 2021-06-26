@@ -78,7 +78,7 @@ export default ViewPost;
 export const getStaticProps = async (res: StaticPathsResult) => {
 	const cache = ssrExchange({ isClient: false });
 	const client = initUrqlClient({
-		url: 'http://localhost:8000/graphql',
+		url: 'https://scnewmark.cloud.libraryofcode.org/graphql',
 		exchanges: [dedupExchange, cacheExchange, cache, fetchExchange],
 		requestPolicy: 'network-only'
 	}, false);
@@ -107,7 +107,7 @@ export const getStaticProps = async (res: StaticPathsResult) => {
 export const getStaticPaths = async () => {
 	const cache = ssrExchange({ isClient: false });
 	const client = initUrqlClient({
-		url: 'http://localhost:8000/graphql',
+		url: 'https://scnewmark.cloud.libraryofcode.org/graphql',
 		exchanges: [dedupExchange, cacheExchange, cache, fetchExchange],
 		requestPolicy: 'network-only'
 	}, false);

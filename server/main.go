@@ -9,7 +9,6 @@ import (
 	"strings"
 
 	"github.com/99designs/gqlgen/graphql/handler"
-	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/go-chi/chi"
 	"github.com/rs/cors"
 	"github.com/scnewmark/website-new/server/database"
@@ -19,8 +18,8 @@ import (
 	"github.com/scnewmark/website-new/server/utils"
 )
 
-const port = 8000
-const hostname = "http://localhost"
+const port = 7800
+const hostname = "https://scnewmark.cloud.libraryofcode.org"
 
 func init() {
 	loadEnv()
@@ -33,14 +32,13 @@ func main() {
 
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graphql.Resolver{}}))
 
-	mux.Handle("/", playground.Handler("GraphQL Playground", "/graphql"))
 	mux.Handle("/graphql", srv)
 
 	var addr = fmt.Sprintf(":%d", port)
 	utils.Log(utils.Writer, "info", fmt.Sprintf("server live at %s%s", hostname, addr))
 
 	cors := cors.New(cors.Options{
-		AllowedOrigins: []string{"http://localhost:3000"},
+		AllowedOrigins: []string{"http://localhost:3000", "https://scnewmark.vercel.app"},
 		AllowedMethods: []string{
 			http.MethodHead,
 			http.MethodGet,

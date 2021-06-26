@@ -372,8 +372,8 @@ export const LoginDocument = gql`
     `;
 
 export function useLoginMutation() {
-	return Urql.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument);
-}
+  return Urql.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument);
+};
 export const DeleteUrlDocument = gql`
     mutation DeleteURL($key: String!) {
   deleteURL(key: $key)
@@ -381,8 +381,8 @@ export const DeleteUrlDocument = gql`
     `;
 
 export function useDeleteUrlMutation() {
-	return Urql.useMutation<DeleteUrlMutation, DeleteUrlMutationVariables>(DeleteUrlDocument);
-}
+  return Urql.useMutation<DeleteUrlMutation, DeleteUrlMutationVariables>(DeleteUrlDocument);
+};
 export const NewPostDocument = gql`
     mutation NewPost($title: String!, $description: String!, $content: String!, $tags: [String!]!, $type: PostType!) {
   createPost(
@@ -394,8 +394,8 @@ export const NewPostDocument = gql`
     `;
 
 export function useNewPostMutation() {
-	return Urql.useMutation<NewPostMutation, NewPostMutationVariables>(NewPostDocument);
-}
+  return Urql.useMutation<NewPostMutation, NewPostMutationVariables>(NewPostDocument);
+};
 export const CreateUrlDocument = gql`
     mutation CreateURL($key: String!, $dest: String!) {
   createURL(data: {key: $key, dest: $dest}) {
@@ -405,8 +405,8 @@ export const CreateUrlDocument = gql`
     `;
 
 export function useCreateUrlMutation() {
-	return Urql.useMutation<CreateUrlMutation, CreateUrlMutationVariables>(CreateUrlDocument);
-}
+  return Urql.useMutation<CreateUrlMutation, CreateUrlMutationVariables>(CreateUrlDocument);
+};
 export const DeletePostDocument = gql`
     mutation DeletePost($id: String!) {
   deletePost(id: $id)
@@ -414,8 +414,8 @@ export const DeletePostDocument = gql`
     `;
 
 export function useDeletePostMutation() {
-	return Urql.useMutation<DeletePostMutation, DeletePostMutationVariables>(DeletePostDocument);
-}
+  return Urql.useMutation<DeletePostMutation, DeletePostMutationVariables>(DeletePostDocument);
+};
 export const EditPostDocument = gql`
     mutation EditPost($id: String!, $title: String!, $description: String!, $content: String!, $tags: [String!]!) {
   editPost(
@@ -427,8 +427,8 @@ export const EditPostDocument = gql`
     `;
 
 export function useEditPostMutation() {
-	return Urql.useMutation<EditPostMutation, EditPostMutationVariables>(EditPostDocument);
-}
+  return Urql.useMutation<EditPostMutation, EditPostMutationVariables>(EditPostDocument);
+};
 export const EditUserDocument = gql`
     mutation EditUser($id: String!, $bio: String!, $avatar: String!) {
   editUser(data: {id: $id, bio: $bio, avatar: $avatar}) {
@@ -438,8 +438,8 @@ export const EditUserDocument = gql`
     `;
 
 export function useEditUserMutation() {
-	return Urql.useMutation<EditUserMutation, EditUserMutationVariables>(EditUserDocument);
-}
+  return Urql.useMutation<EditUserMutation, EditUserMutationVariables>(EditUserDocument);
+};
 export const EditUrlDocument = gql`
     mutation EditURL($key: String!, $dest: String!) {
   editURL(data: {key: $key, dest: $dest}) {
@@ -449,8 +449,8 @@ export const EditUrlDocument = gql`
     `;
 
 export function useEditUrlMutation() {
-	return Urql.useMutation<EditUrlMutation, EditUrlMutationVariables>(EditUrlDocument);
-}
+  return Urql.useMutation<EditUrlMutation, EditUrlMutationVariables>(EditUrlDocument);
+};
 export const MeDocument = gql`
     query Me {
   me {
@@ -462,8 +462,8 @@ export const MeDocument = gql`
     `;
 
 export function useMeQuery(options: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'> = {}) {
-	return Urql.useQuery<MeQuery>({ query: MeDocument, ...options });
-}
+  return Urql.useQuery<MeQuery>({ query: MeDocument, ...options });
+};
 export const PostsDocument = gql`
     query Posts {
   posts {
@@ -479,8 +479,8 @@ export const PostsDocument = gql`
     `;
 
 export function usePostsQuery(options: Omit<Urql.UseQueryArgs<PostsQueryVariables>, 'query'> = {}) {
-	return Urql.useQuery<PostsQuery>({ query: PostsDocument, ...options });
-}
+  return Urql.useQuery<PostsQuery>({ query: PostsDocument, ...options });
+};
 export const UrLsDocument = gql`
     query URLs {
   urls {
@@ -494,8 +494,8 @@ export const UrLsDocument = gql`
     `;
 
 export function useUrLsQuery(options: Omit<Urql.UseQueryArgs<UrLsQueryVariables>, 'query'> = {}) {
-	return Urql.useQuery<UrLsQuery>({ query: UrLsDocument, ...options });
-}
+  return Urql.useQuery<UrLsQuery>({ query: UrLsDocument, ...options });
+};
 export const GetUrlDocument = gql`
     query GetURL($key: String!) {
   url(key: $key) {
@@ -506,8 +506,8 @@ export const GetUrlDocument = gql`
     `;
 
 export function useGetUrlQuery(options: Omit<Urql.UseQueryArgs<GetUrlQueryVariables>, 'query'> = {}) {
-	return Urql.useQuery<GetUrlQuery>({ query: GetUrlDocument, ...options });
-}
+  return Urql.useQuery<GetUrlQuery>({ query: GetUrlDocument, ...options });
+};
 export const GetPostDocument = gql`
     query GetPost($id: String!) {
   post(id: $id) {
@@ -522,5 +522,5 @@ export const GetPostDocument = gql`
     `;
 
 export function useGetPostQuery(options: Omit<Urql.UseQueryArgs<GetPostQueryVariables>, 'query'> = {}) {
-	return Urql.useQuery<GetPostQuery>({ query: GetPostDocument, ...options });
-}
+  return Urql.useQuery<GetPostQuery>({ query: GetPostDocument, ...options });
+};

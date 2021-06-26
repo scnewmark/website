@@ -7,6 +7,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"net/http"
 	"strings"
 	"time"
 
@@ -35,6 +36,10 @@ func (r *mutationResolver) Login(ctx context.Context, data model.Login) (*model.
 
 	session, _ := database.Store.Get(request, "qid")
 	session.Values["user-id"] = user.ID
+
+	session.Options.SameSite = http.SameSiteNoneMode
+	session.Options.Secure = true
+
 	err = session.Save(request, writer)
 	if err != nil {
 		return nil, fmt.Errorf("server error: failed to save user session")
