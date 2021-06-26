@@ -29,7 +29,14 @@ const Redirect = (props: RedirectProps) => {
 		<>
 			<div>
 				<SEO
-					openGraph={{}}
+					openGraph={{
+						title: props.url.key,
+						description: `Redirects to ${props.url.dest}`,
+						site: props.url.dest,
+						image: '/images/scnewmark.jpg',
+						url: props.url.dest,
+						type: 'article'
+					}}
 					name={`scnewmark • ${props.url.key}`}
 				/>
 			</div>
