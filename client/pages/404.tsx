@@ -1,5 +1,4 @@
 import {
-	Card,
 	Navbar,
 	Particles,
 	SEO
@@ -19,10 +18,12 @@ const ErrorNotFound = () => {
 				<Particles/>
 				<Navbar/>
 				<div className="container" style={{ maxWidth: 700, paddingLeft: 30, paddingRight: 30 }}>
-					<Card>
-						<p className="title has-text-link"><strong>404</strong></p>
-						<p className="content has-text-info">The requested URL <code>{router.asPath}</code> was not found on this server.</p>
-					</Card>
+					<div className="card has-text-centered" style={{ marginTop: '20vh' }}>
+						<div className="card-content">
+							<p className="title has-text-link"><strong>404</strong></p>
+							<p className="content has-text-info">The requested URL <code>{router.asPath}</code> was not found on this server.</p>
+						</div>
+					</div>
 				</div>
 			</div>
 		</>

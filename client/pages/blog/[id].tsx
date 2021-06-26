@@ -1,5 +1,6 @@
 import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
 import normalizeTitle from '../../src/utils/normalizeTitle';
+import profileIcon from '../../public/images/scnewmark.jpg';
 import { SEO, Navbar, Particles } from '../../components';
 import { initUrqlClient } from 'next-urql';
 import { Post } from '../../src/types';
@@ -47,8 +48,8 @@ const ViewPost = (props: PostProps) =>
 				<div className="subtitle is-4 has-text-info">{props.post.description}</div>
 				<div className="media">
 					<div className="media-left">
-						<figure className="image is-24x24">
-							<Image src="/images/scnewmark.png" alt="Profile icon" width={48} height={48}/>
+						<figure className="image is-30x30">
+							<Image src={profileIcon} alt="Profile icon" width={30} height={30} className="is-rounded"/>
 						</figure>
 					</div>
 					<div className="media-content">

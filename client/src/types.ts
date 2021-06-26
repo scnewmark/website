@@ -101,12 +101,6 @@ export type LinkProps = {
     classes: string;
 }
 
-export type CardProps = {
-    image?: string;
-    alt?: string;
-    children: ReactNode;
-};
-
 export type NotificationProps = {
     name: string;
     message: string;
