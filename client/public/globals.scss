@@ -63,6 +63,15 @@ $input-disabled-background-color: $not-quite-black;
 $input-disabled-border-color: $dark;
 $input-shadow: none;
 
+$divider-font-size: 15px;
+$weight-semibold: 15;
+$divider-margin-size: 30px;
+$divider-background-color: $goldenrod;
+$divider-margin-inner-size: 0px;
+
+/* divider */
+@import "./divider.scss";
+
 /* nprogress */
 @import "./nprogress.scss";
 

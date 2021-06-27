@@ -7,7 +7,7 @@ const Footer = (props: FooterProps) => {
 
 	return (
 		<div className="container has-text-centered" style={{ maxWidth: 800, padding: 75, paddingBottom: 100, fontSize: 18 }}>
-			<hr style={{ backgroundColor: '#FBFCD4', height: 0.15 }}/>
+			<div className="divider"/>
 			<div className="content">
 				<div style={{ borderRadius: 10, padding: 10, flex: 'true' }} className="has-text-left">
 					<span className="icon">
