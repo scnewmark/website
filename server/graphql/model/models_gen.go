@@ -67,13 +67,15 @@ type URLEdit struct {
 }
 
 type User struct {
-	ID        string `json:"_id"`
-	Username  string `json:"username"`
-	Password  string `json:"password"`
-	Bio       string `json:"bio"`
-	Avatar    string `json:"avatar"`
-	CreatedAt int    `json:"createdAt"`
-	UpdatedAt int    `json:"updatedAt"`
+	ID             string `json:"_id"`
+	Username       string `json:"username"`
+	Password       string `json:"password"`
+	Bio            string `json:"bio"`
+	Avatar         string `json:"avatar"`
+	CreatedAt      int    `json:"createdAt"`
+	UpdatedAt      int    `json:"updatedAt"`
+	RecentlyPlayed string `json:"recentlyPlayed"`
+	NowPlaying     string `json:"nowPlaying"`
 }
 
 type UserEdit struct {

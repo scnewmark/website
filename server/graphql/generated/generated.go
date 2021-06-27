@@ -55,6 +55,7 @@ type ComplexityRoot struct {
 		EditUser        func(childComplexity int, data model.UserEdit) int
 		Login           func(childComplexity int, data model.Login) int
 		Logout          func(childComplexity int) int
+		UpdateMusic     func(childComplexity int, id string, title string) int
 		UpdatePostViews func(childComplexity int, id string) int
 	}
 
@@ -90,13 +91,15 @@ type ComplexityRoot struct {
 	}
 
 	User struct {
-		Avatar    func(childComplexity int) int
-		Bio       func(childComplexity int) int
-		CreatedAt func(childComplexity int) int
-		ID        func(childComplexity int) int
-		Password  func(childComplexity int) int
-		UpdatedAt func(childComplexity int) int
-		Username  func(childComplexity int) int
+		Avatar         func(childComplexity int) int
+		Bio            func(childComplexity int) int
+		CreatedAt      func(childComplexity int) int
+		ID             func(childComplexity int) int
+		NowPlaying     func(childComplexity int) int
+		Password       func(childComplexity int) int
+		RecentlyPlayed func(childComplexity int) int
+		UpdatedAt      func(childComplexity int) int
+		Username       func(childComplexity int) int
 	}
 }
 
@@ -113,6 +116,7 @@ type MutationResolver interface {
 	DeleteUser(ctx context.Context, username string) (bool, error)
 	DeletePost(ctx context.Context, id string) (bool, error)
 	DeleteURL(ctx context.Context, key string) (bool, error)
+	UpdateMusic(ctx context.Context, id string, title string) (bool, error)
 }
 type QueryResolver interface {
 	Me(ctx context.Context) (*model.User, error)
@@ -266,6 +270,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.Logout(childComplexity), true
+
+	case "Mutation.updateMusic":
+		if e.complexity.Mutation.UpdateMusic == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateMusic_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateMusic(childComplexity, args["id"].(string), args["title"].(string)), true
 
 	case "Mutation.updatePostViews":
 		if e.complexity.Mutation.UpdatePostViews == nil {
@@ -481,12 +497,26 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.User.ID(childComplexity), true
 
+	case "User.nowPlaying":
+		if e.complexity.User.NowPlaying == nil {
+			break
+		}
+
+		return e.complexity.User.NowPlaying(childComplexity), true
+
 	case "User.password":
 		if e.complexity.User.Password == nil {
 			break
 		}
 
 		return e.complexity.User.Password(childComplexity), true
+
+	case "User.recentlyPlayed":
+		if e.complexity.User.RecentlyPlayed == nil {
+			break
+		}
+
+		return e.complexity.User.RecentlyPlayed(childComplexity), true
 
 	case "User.updatedAt":
 		if e.complexity.User.UpdatedAt == nil {
@@ -574,6 +604,8 @@ var sources = []*ast.Source{
   avatar: String!
   createdAt: Int!
   updatedAt: Int!
+  recentlyPlayed: String!
+  nowPlaying: String!
 }
 
 enum PostType {
@@ -677,6 +709,8 @@ type Mutation {
   deleteUser(username: String!): Boolean!
   deletePost(id: String!): Boolean!
   deleteURL(key: String!): Boolean!
+
+  updateMusic(id: String!, title: String!): Boolean!
 }`, BuiltIn: false},
 }
 var parsedSchema = gqlparser.MustLoadSchema(sources...)
@@ -832,6 +866,30 @@ func (ec *executionContext) field_Mutation_login_args(ctx context.Context, rawAr
 		}
 	}
 	args["data"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_updateMusic_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+		arg0, err = ec.unmarshalNString2string(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["id"] = arg0
+	var arg1 string
+	if tmp, ok := rawArgs["title"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("title"))
+		arg1, err = ec.unmarshalNString2string(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["title"] = arg1
 	return args, nil
 }
 
@@ -1444,6 +1502,48 @@ func (ec *executionContext) _Mutation_deleteURL(ctx context.Context, field graph
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
 		return ec.resolvers.Mutation().DeleteURL(rctx, args["key"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(bool)
+	fc.Result = res
+	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_updateMusic(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_updateMusic_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateMusic(rctx, args["id"].(string), args["title"].(string))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -2572,6 +2672,76 @@ func (ec *executionContext) _User_updatedAt(ctx context.Context, field graphql.C
 	res := resTmp.(int)
 	fc.Result = res
 	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _User_recentlyPlayed(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "User",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.RecentlyPlayed, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _User_nowPlaying(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "User",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.NowPlaying, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) ___Directive_name(ctx context.Context, field graphql.CollectedField, obj *introspection.Directive) (ret graphql.Marshaler) {
@@ -4012,6 +4182,11 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "updateMusic":
+			out.Values[i] = ec._Mutation_updateMusic(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -4322,6 +4497,16 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 			}
 		case "updatedAt":
 			out.Values[i] = ec._User_updatedAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "recentlyPlayed":
+			out.Values[i] = ec._User_recentlyPlayed(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "nowPlaying":
+			out.Values[i] = ec._User_nowPlaying(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}

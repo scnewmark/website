@@ -83,13 +83,15 @@ func (r *mutationResolver) CreateUser(ctx context.Context, data model.NewUser) (
 	}
 
 	user := &model.User{
-		ID:        fmt.Sprint(time.Now().UnixNano()),
-		Username:  data.Username,
-		Password:  string(hashed),
-		Avatar:    data.Avatar,
-		Bio:       data.Bio,
-		CreatedAt: int(time.Now().Unix()),
-		UpdatedAt: int(time.Now().Unix()),
+		ID:             fmt.Sprint(time.Now().UnixNano()),
+		Username:       data.Username,
+		Password:       string(hashed),
+		Avatar:         data.Avatar,
+		Bio:            data.Bio,
+		RecentlyPlayed: "None",
+		NowPlaying:     "None",
+		CreatedAt:      int(time.Now().Unix()),
+		UpdatedAt:      int(time.Now().Unix()),
 	}
 
 	_, err = database.PostgreDB.Model(user).Insert()
@@ -276,6 +278,37 @@ func (r *mutationResolver) DeleteURL(ctx context.Context, key string) (bool, err
 	return true, nil
 }
 
+func (r *mutationResolver) UpdateMusic(ctx context.Context, id string, title string) (bool, error) {
+	user, err := r.Query().User(ctx, id)
+	if err != nil {
+		return false, err
+	}
+
+	if title == "N/A" {
+		_, err = database.PostgreDB.Model(user).Set("now_playing = ?", "N/A").Where("id = ?", id).Update()
+		if err != nil {
+			return false, err
+		}
+
+		_, err = database.PostgreDB.Model(user).Set("recently_played = ?", user.RecentlyPlayed).Where("id = ?", id).Update()
+		if err != nil {
+			return false, err
+		}
+	} else {
+		_, err = database.PostgreDB.Model(user).Set("now_playing = ?", title).Where("id = ?", id).Update()
+		if err != nil {
+			return false, err
+		}
+
+		_, err = database.PostgreDB.Model(user).Set("recently_played = ?", title).Where("id = ?", id).Update()
+		if err != nil {
+			return false, err
+		}
+	}
+
+	return true, nil
+}
+
 func (r *queryResolver) Me(ctx context.Context) (*model.User, error) {
 	request := middleware.RequestFromContext(ctx)
 	session, _ := database.Store.Get(request, "qid")
@@ -308,13 +341,15 @@ func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
 	var res []*model.User
 	for _, user := range users {
 		res = append(res, &model.User{
-			ID:        user.ID,
-			Username:  user.Username,
-			Password:  user.Password,
-			Avatar:    user.Avatar,
-			Bio:       user.Bio,
-			CreatedAt: user.CreatedAt,
-			UpdatedAt: user.UpdatedAt,
+			ID:             user.ID,
+			Username:       user.Username,
+			Password:       user.Password,
+			Avatar:         user.Avatar,
+			NowPlaying:     user.NowPlaying,
+			RecentlyPlayed: user.RecentlyPlayed,
+			Bio:            user.Bio,
+			CreatedAt:      user.CreatedAt,
+			UpdatedAt:      user.UpdatedAt,
 		})
 	}
 

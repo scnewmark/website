@@ -6,6 +6,8 @@ type User {
   avatar: String!
   createdAt: Int!
   updatedAt: Int!
+  recentlyPlayed: String!
+  nowPlaying: String!
 }
 
 enum PostType {
@@ -109,4 +111,6 @@ type Mutation {
   deleteUser(username: String!): Boolean!
   deletePost(id: String!): Boolean!
   deleteURL(key: String!): Boolean!
+
+  updateMusic(id: String!, title: String!): Boolean!
 }
