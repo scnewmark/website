@@ -6,7 +6,7 @@ const Footer = (props: FooterProps) => {
 	const [{ data }] = useGetMusicQuery({ requestPolicy: 'cache-and-network' });
 
 	return (
-		<div className="container has-text-centered" style={{ maxWidth: 800, padding: 75, paddingBottom: 100, fontSize: 18 }}>
+		<div className="container has-text-centered" style={{ maxWidth: 800, paddingTop: 75, paddingLeft: 30, paddingRight: 30, paddingBottom: 100, fontSize: 18 }}>
 			<div className="divider"/>
 			<div className="content">
 				<div style={{ borderRadius: 10, padding: 10, flex: 'true' }} className="has-text-left">
