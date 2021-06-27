@@ -2,7 +2,7 @@ import { HomeProps, NotificationProps, NotificationState, StaticPropsResult, Par
 import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
 import { Navbar, Particles, SEO, Footer } from '@/components';
 import { NotificationContext } from '@/src/notifications';
-import profileIcon from '@/public/images.scnewmark.jpg';
+import profileIcon from '@/public/images/scnewmark.jpg';
 import { useGetMusicQuery } from '@/graphql';
 import { useState, useEffect } from 'react';
 import { initUrqlClient } from 'next-urql';

@@ -22,7 +22,7 @@
       "@/components": ["components/index.ts"],
       "@/graphql": ["src/generated/graphql.tsx"],
       "@/utils": ["src/utils"],
-      "@/public": ["public"],
+      "@/public/*": ["public/*"],
       "@/types": ["src/types.ts"],
       "@/src/*": ["src/*"]
     }
