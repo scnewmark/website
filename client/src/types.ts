@@ -1,6 +1,6 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { NextRouter } from 'next/router';
 import { FunctionComponent, ReactNode } from 'react';
+import { NextRouter } from 'next/router';
 
 export type EditURLServerRequest = {
     req: {

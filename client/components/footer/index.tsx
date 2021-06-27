@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useGetMusicQuery } from '../../src/generated/graphql';
-import { FooterProps } from '../../src/types';
+import { useGetMusicQuery } from '@/graphql';
+import { FooterProps } from '@/types';
 
 const Footer = (props: FooterProps) => {
 	const [{ data }] = useGetMusicQuery({ requestPolicy: 'cache-and-network' });

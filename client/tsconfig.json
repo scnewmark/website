@@ -16,7 +16,16 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "baseUrl": ".",
+    "paths": {
+      "@/components": ["components/index.ts"],
+      "@/graphql": ["src/generated/graphql.tsx"],
+      "@/utils": ["src/utils"],
+      "@/public": ["public"],
+      "@/types": ["src/types.ts"],
+      "@/src/*": ["src/*"]
+    }
   },
   "include": [
     "next-env.d.ts",

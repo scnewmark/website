@@ -1,6 +1,6 @@
-import { useRouter } from 'next/router';
+import { Navbar, Particles, SEO, Footer } from '@/components';
 import { useEffect, useState } from 'react';
-import { Navbar, Particles, SEO, Footer } from '../components';
+import { useRouter } from 'next/router';
 
 const Portfolio = () => {
 	const [small, setSmall] = useState<boolean>(false);

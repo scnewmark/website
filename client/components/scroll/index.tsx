@@ -1,5 +1,5 @@
-import { ScrollProps } from '../../src/types';
 import { useRef, useEffect } from 'react';
+import { ScrollProps } from '@/types';
 
 const Scroll = (props: ScrollProps) => {
 	const elementRef: any = useRef();

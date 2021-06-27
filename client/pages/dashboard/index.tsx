@@ -1,11 +1,7 @@
-import {
-	Navbar,
-	SEO,
-	Particles
-} from '../../components';
-import { DashboardProps, ListElementProps } from '../../src/types';
-import { useMeQuery } from '../../src/generated/graphql';
+import { DashboardProps, ListElementProps } from '@/types';
+import { Navbar, SEO, Particles } from '@/components';
 import { useRouter } from 'next/router';
+import { useMeQuery } from '@/graphql';
 
 const normalizePath = (path: string) => path.toLowerCase();
 

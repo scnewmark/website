@@ -1,10 +1,10 @@
-import { NotificationContext } from '../../../src/notifications';
-import { useDeletePostMutation, useMeQuery, usePostsQuery } from '../../../src/generated/graphql';
-import { NotificationProps, Post } from '../../../src/types';
+import { useDeletePostMutation, useMeQuery, usePostsQuery } from '@/graphql';
+import { NotificationContext } from '@/src/notifications';
+import { NotificationProps, Post } from '@/types';
 import { useEffect, useState } from 'react';
-import { Link } from '../../../components';
 import { useRouter } from 'next/router';
 import { DashboardTemplate } from '..';
+import { Link } from '@/components';
 
 const Posts = () => {
 	const [{ fetching: fetch, error: err }] = useMeQuery({ requestPolicy: 'network-only' });

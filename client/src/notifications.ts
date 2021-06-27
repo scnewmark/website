@@ -1,4 +1,4 @@
-import { INotificationContext } from './types';
+import { INotificationContext } from '@/types';
 import { createContext } from 'react';
 
 export const NotificationContext = createContext<INotificationContext>({

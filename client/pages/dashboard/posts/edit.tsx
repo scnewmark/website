@@ -1,9 +1,9 @@
-import { CreatePostState, EditPostProps, EditPostServerRequest, NotificationProps } from '../../../src/types';
-import { useEditPostMutation, useMeQuery, useGetPostQuery } from '../../../src/generated/graphql';
+import { CreatePostState, EditPostProps, EditPostServerRequest, NotificationProps } from '@/types';
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { NotificationContext } from '../../../src/notifications';
+import { useEditPostMutation, useMeQuery, useGetPostQuery } from '@/graphql';
+import { NotificationContext } from '@/src/notifications';
 import styles from '../dashboard.module.scss';
-import { Scroll } from '../../../components';
+import { Scroll } from '@/components';
 import { useRouter } from 'next/router';
 import { DashboardTemplate } from '..';
 import html from 'remark-html';

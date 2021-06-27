@@ -1,7 +1,7 @@
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { useEditUserMutation, useMeQuery } from '../../src/generated/graphql';
-import { NotificationContext } from '../../src/notifications';
-import { NotificationProps } from '../../src/types';
+import { useEditUserMutation, useMeQuery } from '@/graphql';
+import { NotificationContext } from '@/src/notifications';
+import { NotificationProps } from '@/src/types';
 import styles from './dashboard.module.scss';
 import { useRouter } from 'next/router';
 import { DashboardTemplate } from '.';

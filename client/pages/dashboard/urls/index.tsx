@@ -1,13 +1,13 @@
-import { useDeleteUrlMutation, useMeQuery } from '../../../src/generated/graphql';
 import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
-import { NotificationContext } from '../../../src/notifications';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { NotificationProps, URLProps } from '../../../src/types';
+import { useDeleteUrlMutation, useMeQuery } from '@/graphql';
+import { NotificationContext } from '@/src/notifications';
+import { NotificationProps, URLProps } from '@/types';
 import styles from '../dashboard.module.scss';
-import { Link } from '../../../components';
 import { initUrqlClient } from 'next-urql';
-import { useRouter } from 'next/router';
 import { DashboardTemplate } from '../';
+import { useRouter } from 'next/router';
+import { Link } from '@/components';
 
 const URLs = ({ urls }: URLProps) => {
 	const router = useRouter();

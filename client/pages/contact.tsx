@@ -1,4 +1,4 @@
-import { Footer, Navbar, Particles, SEO } from '../components';
+import { Footer, Navbar, Particles, SEO } from '@/components';
 import { useRouter } from 'next/router';
 
 const Contact = () => {

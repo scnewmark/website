@@ -1,7 +1,7 @@
-import { useCreateUrlMutation, useMeQuery } from '../../../src/generated/graphql';
-import { NotificationContext } from '../../../src/notifications';
-import { NotificationProps } from '../../../src/types';
+import { useCreateUrlMutation, useMeQuery } from '@/graphql';
+import { NotificationContext } from '@/src/notifications';
 import styles from '../dashboard.module.scss';
+import { NotificationProps } from '@/types';
 import { useRouter } from 'next/router';
 import { DashboardTemplate } from '..';
 import { useState } from 'react';

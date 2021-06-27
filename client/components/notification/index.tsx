@@ -1,5 +1,5 @@
-import { NotificationContext } from '../../src/notifications';
-import type { NotificationProps } from '../../src/types';
+import { NotificationContext } from '@/src/notifications';
+import type { NotificationProps } from '@/types';
 import styles from './notification.module.scss';
 
 const Notification = (props: NotificationProps) =>

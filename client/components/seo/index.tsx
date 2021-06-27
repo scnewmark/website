@@ -1,4 +1,4 @@
-import type { SEOProps } from '../../src/types';
+import type { SEOProps } from '@/types';
 import Head from 'next/head';
 
 const formatPropKey = (key: string) => `og:${key.replace(/[A-Z]/g, (char: string) => `-${char.toLowerCase()}`)}`;

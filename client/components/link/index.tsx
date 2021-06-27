@@ -1,5 +1,5 @@
 import { NextRouter, useRouter } from 'next/router';
-import { LinkProps } from '../../src/types';
+import { LinkProps } from '@/types';
 
 const changePage = (router: NextRouter, path: string) => router.push(path);
 

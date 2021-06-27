@@ -3,7 +3,7 @@ import {
 	Particles,
 	SEO,
 	Footer
-} from '../components';
+} from '@/components';
 import { useRouter } from 'next/router';
 
 const ErrorNotFound = () => {

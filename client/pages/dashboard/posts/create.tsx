@@ -1,12 +1,12 @@
-import { PostType, useMeQuery, useNewPostMutation } from '../../../src/generated/graphql';
-import { CreatePostState, NotificationProps } from '../../../src/types';
 import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
-import { NotificationContext } from '../../../src/notifications';
-import parseTagString from '../../../src/utils/parseTagString';
+import { PostType, useMeQuery, useNewPostMutation } from '@/graphql';
+import { CreatePostState, NotificationProps } from '@/types';
+import { NotificationContext } from '@/src/notifications';
 import styles from '../dashboard.module.scss';
-import { Scroll } from '../../../components';
+import { parseTagString } from '@/utils';
 import { useRouter } from 'next/router';
 import { DashboardTemplate } from '..';
+import { Scroll } from '@/components';
 import html from 'remark-html';
 import Image from 'next/image';
 import remark from 'remark';

@@ -1,9 +1,9 @@
 import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
 import { initUrqlClient } from 'next-urql';
 import { useRouter } from 'next/router';
-import { SEO } from '../components';
-import { URL } from '../src/types';
+import { SEO } from '@/components';
 import { useEffect } from 'react';
+import { URL } from '@/types';
 
 type StaticPathsResult = {
     params: {

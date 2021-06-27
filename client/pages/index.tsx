@@ -1,9 +1,9 @@
-import { HomeProps, NotificationProps, NotificationState, StaticPropsResult, ParsedStaticProps } from '../src/types';
+import { HomeProps, NotificationProps, NotificationState, StaticPropsResult, ParsedStaticProps } from '@/types';
 import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
-import { Navbar, Particles, SEO, Footer } from '../components';
-import { useGetMusicQuery } from '../src/generated/graphql';
-import { NotificationContext } from '../src/notifications';
-import profileIcon from '../public/images/scnewmark.jpg';
+import { Navbar, Particles, SEO, Footer } from '@/components';
+import { NotificationContext } from '@/src/notifications';
+import profileIcon from '@/public/images.scnewmark.jpg';
+import { useGetMusicQuery } from '@/graphql';
 import { useState, useEffect } from 'react';
 import { initUrqlClient } from 'next-urql';
 import { useRouter } from 'next/router';

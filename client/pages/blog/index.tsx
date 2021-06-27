@@ -1,10 +1,8 @@
 import { ParsedStaticProps, PostListProps, SearchResult } from '../../src/types';
 import { cacheExchange, dedupExchange, fetchExchange, ssrExchange } from 'urql';
+import { updateViewCount, normalizeTitle, parseTagString } from '@/utils';
 import { SEO, Navbar, Particles, Footer } from '../../components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import updateViewCount from '../../src/utils/updateViewCount';
-import parseTagString from '../../src/utils/parseTagString';
-import normalizeTitle from '../../src/utils/normalizeTitle';
 import { useEffect, useState } from 'react';
 import { initUrqlClient } from 'next-urql';
 import styles from './blog.module.scss';

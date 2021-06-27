@@ -1,9 +1,9 @@
-import { FieldProps, InputField, NotificationProps } from '../../src/types';
-import { useLoginMutation, useMeQuery } from '../../src/generated/graphql';
+import { FieldProps, InputField, NotificationProps } from '@/types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { NotificationContext } from '../../src/notifications';
 import { Dispatch, SetStateAction, useState } from 'react';
-import { SEO, Navbar, Particles } from '../../components';
+import { NotificationContext } from '@/src/notifications';
+import { useLoginMutation, useMeQuery } from '@/graphql';
+import { SEO, Navbar, Particles } from '@/components';
 import styles from './login.module.scss';
 import { useRouter } from 'next/router';
 

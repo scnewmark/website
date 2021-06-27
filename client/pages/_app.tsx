@@ -1,17 +1,17 @@
 import { faUser, faLock, faExclamationTriangle, faEdit, faTrash, faSearch } from '@fortawesome/free-solid-svg-icons';
-import { NotificationProps, NotificationState } from '../src/types';
+import { faApple, faGithub } from '@fortawesome/free-brands-svg-icons';
 import { config, library } from '@fortawesome/fontawesome-svg-core';
 import { AppProps } from 'next/dist/next-server/lib/router/router';
-import { NotificationContext } from '../src/notifications';
-import { faApple, faGithub } from '@fortawesome/free-brands-svg-icons';
+import { NotificationProps, NotificationState } from '@/types';
+import { NotificationContext } from '@/src/notifications';
 import '@fortawesome/fontawesome-svg-core/styles.css';
-import { Notification } from '../components';
-import client from '../src/graphql-client';
+import { Notification } from '@/components';
+import client from '@/src/graphql-client';
 import nprogress from 'nprogress';
-import { Provider } from 'urql';
-import '../public/globals.scss';
 import Router from 'next/router';
 import { useState } from 'react';
+import { Provider } from 'urql';
+import '@/public/globals.scss';
 
 /* FontAwesome config */
 config.autoAddCss = false;

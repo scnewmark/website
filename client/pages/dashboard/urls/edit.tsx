@@ -1,6 +1,6 @@
-import { useEditUrlMutation, useGetUrlQuery, useMeQuery } from '../../../src/generated/graphql';
-import { EditURLProps, EditURLServerRequest, NotificationProps } from '../../../src/types';
-import { NotificationContext } from '../../../src/notifications';
+import { EditURLProps, EditURLServerRequest, NotificationProps } from '@/types';
+import { useEditUrlMutation, useGetUrlQuery, useMeQuery } from '@/graphql';
+import { NotificationContext } from '@/src/notifications';
 import styles from '../dashboard.module.scss';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
