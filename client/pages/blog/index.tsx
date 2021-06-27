@@ -1,18 +1,16 @@
+import { ParsedStaticProps, PostListProps, SearchResult } from '../../src/types';
 import { cacheExchange, dedupExchange, fetchExchange, ssrExchange } from 'urql';
-import { BlogProps, Post, PostListProps, SearchResult } from '../../src/types';
+import { SEO, Navbar, Particles, Footer } from '../../components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import updateViewCount from '../../src/utils/updateViewCount';
 import parseTagString from '../../src/utils/parseTagString';
 import normalizeTitle from '../../src/utils/normalizeTitle';
-import { SEO, Navbar, Particles } from '../../components';
 import { useEffect, useState } from 'react';
 import { initUrqlClient } from 'next-urql';
 import styles from './blog.module.scss';
 import { useRouter } from 'next/router';
 
-const parsePosts = (props: BlogProps) => JSON.parse(props.urqlState[Object.keys(props.urqlState)?.[0]]?.data || '{}')?.posts;
-
-const PostList = (props: PostListProps) => {
+export const PostList = (props: PostListProps) => {
 	useEffect(() => updateViewCount());
 
 	return (
@@ -50,7 +48,7 @@ const PostList = (props: PostListProps) => {
 };
 
 const Blog = (props: any) => {
-	const posts: Array<Post> = parsePosts(props);
+	const { posts }: ParsedStaticProps = Object.keys(props.urqlState).map(key => JSON.parse(props.urqlState[key].data))[0];
 	const [search, setSearch] = useState<SearchResult>({ title: '', tags: [] });
 	const router = useRouter();
 
@@ -71,7 +69,7 @@ const Blog = (props: any) => {
 				/>
 				<Navbar/>
 				<Particles/>
-				<div className="container" style={{ maxWidth: 700, paddingLeft: 30, paddingRight: 30, marginTop: '10vh' }}>
+				<div className="container" style={{ maxWidth: 700, paddingLeft: 30, paddingRight: 30, paddingTop: 75 }}>
 					<div className="title has-text-primary" style={{ fontSize: 62 }}>Blog</div>
 					<div className="subtitle is-6 has-text-info" style={{ paddingTop: 10 }}>
                     This is where I write about various technology topics. In total,
@@ -138,14 +136,8 @@ const Blog = (props: any) => {
 						</>
 					}
 				</div>
-				<div className="container has-text-centered" style={{ maxWidth: 900, padding: 75, paddingBottom: 100, fontSize: 18 }}>
-					<hr style={{ backgroundColor: '#FBFCD4', height: 0.15 }}/>
-					<div className="content">
-						<br/>
-						<p className="content">Copyright 2021 © Sam Newmark</p>
-					</div>
-				</div>
 			</div>
+			<Footer router={router}/>
 		</>
 	);
 };

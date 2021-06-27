@@ -1,8 +1,10 @@
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { Navbar, Particles, SEO } from '../components';
+import { Navbar, Particles, SEO, Footer } from '../components';
 
 const Portfolio = () => {
 	const [small, setSmall] = useState<boolean>(false);
+	const router = useRouter();
 
 	useEffect(() => {
 		const update = (matches: boolean) => {
@@ -44,12 +46,8 @@ const Portfolio = () => {
 						</div>
 					}
 				</div>
-				<div className="has-text-centered" style={{ paddingBottom: 150, paddingTop: 15 }}>
-					<hr style={{ backgroundColor: '#FBC403' }}/>
-					<br/><br/>
-					<p>Copyright 2021 © Samuel Newmark</p>
-				</div>
 			</div>
+			<Footer router={router}/>
 		</div>
 	);
 };

@@ -1,7 +1,8 @@
 import {
 	Navbar,
 	Particles,
-	SEO
+	SEO,
+	Footer
 } from '../components';
 import { useRouter } from 'next/router';
 
@@ -25,6 +26,7 @@ const ErrorNotFound = () => {
 						</div>
 					</div>
 				</div>
+				<Footer router={router}/>
 			</div>
 		</>
 	);

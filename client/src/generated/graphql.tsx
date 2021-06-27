@@ -31,6 +31,7 @@ export type Mutation = {
   deleteUser: Scalars['Boolean'];
   deletePost: Scalars['Boolean'];
   deleteURL: Scalars['Boolean'];
+  updateMusic: Scalars['Boolean'];
 };
 
 
@@ -86,6 +87,12 @@ export type MutationDeletePostArgs = {
 
 export type MutationDeleteUrlArgs = {
   key: Scalars['String'];
+};
+
+
+export type MutationUpdateMusicArgs = {
+  id: Scalars['String'];
+  title: Scalars['String'];
 };
 
 export type NewPost = {
@@ -190,6 +197,8 @@ export type User = {
   avatar: Scalars['String'];
   createdAt: Scalars['Int'];
   updatedAt: Scalars['Int'];
+  recentlyPlayed: Scalars['String'];
+  nowPlaying: Scalars['String'];
 };
 
 export type UserEdit = {
@@ -378,6 +387,17 @@ export type GetPostQuery = (
   ) }
 );
 
+export type GetMusicQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetMusicQuery = (
+  { __typename?: 'Query' }
+  & { user: (
+    { __typename?: 'User' }
+    & Pick<User, 'recentlyPlayed' | 'nowPlaying'>
+  ) }
+);
+
 
 export const LoginDocument = gql`
     mutation Login($username: String!, $password: String!) {
@@ -548,4 +568,16 @@ export const GetPostDocument = gql`
 
 export function useGetPostQuery(options: Omit<Urql.UseQueryArgs<GetPostQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<GetPostQuery>({ query: GetPostDocument, ...options });
+};
+export const GetMusicDocument = gql`
+    query GetMusic {
+  user(id: "1624671832803552000") {
+    recentlyPlayed
+    nowPlaying
+  }
+}
+    `;
+
+export function useGetMusicQuery(options: Omit<Urql.UseQueryArgs<GetMusicQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<GetMusicQuery>({ query: GetMusicDocument, ...options });
 };

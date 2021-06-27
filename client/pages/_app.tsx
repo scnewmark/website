@@ -3,7 +3,7 @@ import { NotificationProps, NotificationState } from '../src/types';
 import { config, library } from '@fortawesome/fontawesome-svg-core';
 import { AppProps } from 'next/dist/next-server/lib/router/router';
 import { NotificationContext } from '../src/notifications';
-import { faGithub } from '@fortawesome/free-brands-svg-icons';
+import { faApple, faGithub } from '@fortawesome/free-brands-svg-icons';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { Notification } from '../components';
 import client from '../src/graphql-client';
@@ -22,7 +22,8 @@ library.add(
 	faExclamationTriangle,
 	faEdit,
 	faTrash,
-	faSearch
+	faSearch,
+	faApple
 );
 
 /* Progress bar */

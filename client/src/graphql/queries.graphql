@@ -45,3 +45,10 @@ query GetPost($id: String!) {
     type
   }
 }
+
+query GetMusic {
+  user(id: "1624671832803552000") {
+    recentlyPlayed
+    nowPlaying
+  }
+}

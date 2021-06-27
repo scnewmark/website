@@ -3,7 +3,7 @@ import { useUpdatePostViewsMutation } from '../../src/generated/graphql';
 import { getCookie, setCookie } from '../../src/utils/cookies';
 import normalizeTitle from '../../src/utils/normalizeTitle';
 import profileIcon from '../../public/images/scnewmark.jpg';
-import { SEO, Navbar, Particles } from '../../components';
+import { SEO, Navbar, Particles, Footer } from '../../components';
 import { initUrqlClient } from 'next-urql';
 import { Post } from '../../src/types';
 import router from 'next/router';
@@ -59,7 +59,7 @@ const ViewPost = (props: PostProps) => {
 				/>
 				<Navbar/>
 				<Particles/>
-				<div className="container" style={{ maxWidth: 900, paddingLeft: 30, paddingRight: 30, top: '10vh' }}>
+				<div className="container" style={{ maxWidth: 700, paddingLeft: 30, paddingRight: 30, top: '10vh' }}>
 					<nav className="breadcrumb" aria-label="breadcrumbs">
 						<ul>
 							<li><a onClick={() => router.push('/blog')}>Blog</a></li>
@@ -87,12 +87,9 @@ const ViewPost = (props: PostProps) => {
 					</div>
 					<br/><br/>
 					<div className="content" dangerouslySetInnerHTML={{ __html: props.post.content }}/>
-					<div className="has-text-centered" style={{ paddingBottom: 150, paddingTop: 15 }}>
-						<hr style={{ backgroundColor: '#FBC403' }}/>
-						<br/><br/>
-						<p>Copyright 2021 © Samuel Newmark</p>
-					</div>
 				</div>
+				<br/><br/><br/>
+				<Footer router={router}/>
 			</div>
 		</>
 	);

@@ -41,6 +41,24 @@ export type URL = {
     updatedAt: number;
 };
 
+export type HomeProps = {
+    posts: Array<Post>;
+    router: NextRouter;
+};
+
+export type StaticPropsResult = {
+	urqlState: {[key: string]: { data: any }};
+}
+
+export type ParsedStaticProps = {
+    posts: Array<Post>
+};
+
+export type FooterProps = {
+    router: NextRouter;
+};
+
+
 export type Post = {
     _id: string;
     title: string;
