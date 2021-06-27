@@ -1,14 +1,17 @@
 import { ssrExchange, dedupExchange, cacheExchange, fetchExchange } from 'urql';
 import { useUpdatePostViewsMutation } from '../../src/generated/graphql';
+import { SEO, Navbar, Particles, Footer } from '../../components';
+import applescript from 'highlight.js/lib/languages/applescript';
 import { getCookie, setCookie } from '../../src/utils/cookies';
 import normalizeTitle from '../../src/utils/normalizeTitle';
 import profileIcon from '../../public/images/scnewmark.jpg';
-import { SEO, Navbar, Particles, Footer } from '../../components';
+import shell from 'highlight.js/lib/languages/shell';
 import { initUrqlClient } from 'next-urql';
+import hljs from 'highlight.js/lib/core';
 import { Post } from '../../src/types';
+import { useEffect } from 'react';
 import router from 'next/router';
 import Image from 'next/image';
-import { useEffect } from 'react';
 
 type PostProps = {
     post: Post;
@@ -40,6 +43,10 @@ const ViewPost = (props: PostProps) => {
 				path: '/'
 			});
 		}
+
+		hljs.registerLanguage('applescript', applescript);
+		hljs.registerLanguage('shell', shell);
+		hljs.highlightAll();
 	});
 
 	return (
