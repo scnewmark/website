@@ -8,8 +8,8 @@ const SEO = (props: SEOProps) =>
 		<Head>
 			<title>{props.name}</title>
 			<link rel="icon" href="/images/favicon.png"/>
-			<meta name="description" content="Sam Newmark's personal website."/>
-			<meta name="keywords" content="Programming, Blog, Coding"/>
+			<meta name="description" content={props.description}/>
+			<meta name="keywords" content={props.keywords}/>
 			<meta name="author" content="Sam Newmark"/>
 
 			<meta property="og:site_name" content="Sam Newmark"/>

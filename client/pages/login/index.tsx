@@ -77,11 +77,13 @@ const Login = () => {
 					openGraph={{
 						title: 'Login',
 						description: 'Dashboard',
-						site: 'http://localhost:3000/login',
+						site: 'https://scnewmark.vercel.app/login',
 						image: '/images/scnewmark.jpg',
-						url: 'http://localhost:3000/login',
+						url: 'https://scnewmark.vercel.app/login',
 						type: 'article'
 					}}
+					description=""
+					keywords=""
 					name="scnewmark • Login"
 					themeColor="#FBC403"
 				/>

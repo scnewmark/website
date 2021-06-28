@@ -97,7 +97,9 @@ export type SEOProps = {
         image?: string;
         url?: string;
         type?: 'article' | 'content';
-    }
+    };
+    description: string;
+    keywords: string;
     themeColor?: string;
     name: string;
 };

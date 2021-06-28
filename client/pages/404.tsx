@@ -15,6 +15,8 @@ const ErrorNotFound = () => {
 				<SEO
 					openGraph={{}}
 					name="scnewmark • 404"
+					keywords="error"
+					description="A 404 error occurred."
 				/>
 				<Particles/>
 				<Navbar/>

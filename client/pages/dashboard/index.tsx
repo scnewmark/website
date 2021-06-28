@@ -20,11 +20,13 @@ export const DashboardTemplate = (props: DashboardProps) =>
 			openGraph={{
 				title: 'Dashboard',
 				description: 'Private dashboard.',
-				site: 'http://localhost:3000/dashboard',
+				site: 'https://scnewmark.vercel.app/dashboard',
 				image: '/images/scnewmark.jpg',
-				url: 'http://localhost:3000/dashboard',
+				url: 'https://scnewmark.vercel.app/dashboard',
 				type: 'article'
 			}}
+			description=""
+			keywords=""
 			name={`Dashboard •  ${props.name}`}
 			themeColor="#FBC403"
 		/>

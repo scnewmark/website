@@ -10,11 +10,13 @@ const Contact = () => {
 				openGraph={{
 					title: 'Contact',
 					description: 'My contact information',
-					site: 'http://localhost:3000/contact',
+					site: 'https://scnewmark.vercel.app/contact',
 					image: '/images/scnewmark.jpg',
-					url: 'http://localhost:3000/contact',
+					url: 'https://scnewmark.vercel.app/contact',
 					type: 'article'
 				}}
+				description="Sam Newmark's contact information."
+				keywords="contact, info, information"
 				name="scnewmark • Contact"
 				themeColor="#FBC403"
 			/>

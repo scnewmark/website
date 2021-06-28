@@ -23,11 +23,13 @@ const Portfolio = () => {
 				openGraph={{
 					title: 'Portfolio',
 					description: 'Personal portfolio.',
-					site: 'http://localhost:3000/portfolio',
+					site: 'https://scnewmark.vercel.app/portfolio',
 					image: '/images/scnewmark.jpg',
-					url: 'http://localhost:3000/portfolio',
+					url: 'https://scnewmark.vercel.app/portfolio',
 					type: 'article'
 				}}
+				description="Sam Newmark's portfolio."
+				keywords="portfolio"
 				name="scnewmark • Portfolio"
 				themeColor="#FBC403"
 			/>

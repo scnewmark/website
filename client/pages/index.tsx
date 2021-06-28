@@ -16,11 +16,13 @@ const Content = (props: HomeProps) =>
 			openGraph={{
 				title: 'Home',
 				description: 'My personal website.',
-				site: 'http://localhost:3000',
+				site: 'https://scnewmark.vercel.app',
 				image: '/images/scnewmark.jpg',
-				url: 'http://localhost:3000',
+				url: 'https://scnewmark.vercel.app',
 				type: 'article'
 			}}
+			description="Sam Newmark's personal website."
+			keywords="Programming, Coding, Blog, Go"
 			name="scnewmark • Home"
 			themeColor="#FBC403"
 		/>

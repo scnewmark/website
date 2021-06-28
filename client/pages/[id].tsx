@@ -37,6 +37,8 @@ const Redirect = (props: RedirectProps) => {
 						url: props.url.dest,
 						type: 'article'
 					}}
+					keywords={`redirect, ${props.url.key}`}
+					description={`Redirects to ${props.url.dest}`}
 					name={`scnewmark • ${props.url.key}`}
 					themeColor="#FBC403"
 				/>

@@ -5,8 +5,10 @@ import { SEO, Navbar, Particles, Footer } from '@/components';
 import { useUpdatePostViewsMutation } from '@/graphql';
 import profileIcon from '@/public/images/scnewmark.jpg';
 import shell from 'highlight.js/lib/languages/shell';
+import formatDistance from 'date-fns/formatDistance';
 import { initUrqlClient } from 'next-urql';
 import hljs from 'highlight.js/lib/core';
+import format from 'date-fns/format';
 import { useEffect } from 'react';
 import router from 'next/router';
 import Image from 'next/image';
@@ -55,12 +57,14 @@ const ViewPost = (props: PostProps) => {
 					openGraph={{
 						title: props.post.title,
 						description: props.post.description,
-						site: `http://localhost:3000/blog/${normalizeTitle(props.post.title)}`,
+						site: `https://scnewmark.vercel.app/blog/${normalizeTitle(props.post.title)}`,
 						image: '/images/scnewmark.jpg',
-						url: `http://localhost:3000/blog/${normalizeTitle(props.post.title)}`,
+						url: `https://scnewmark.vercel.app/blog/${normalizeTitle(props.post.title)}`,
 						type: 'article'
 					}}
-					name={`Blog • ${props.post.title}`}
+					name={`${props.post.title} • Sam Newmark`}
+					keywords={props.post.tags.join(', ')}
+					description={props.post.description}
 					themeColor="#FBC403"
 				/>
 				<Navbar/>
@@ -83,11 +87,9 @@ const ViewPost = (props: PostProps) => {
 						<div className="media-content">
 							<p className="title is-6" style={{ paddingTop: 5, color: '#fffcec' }}>Sam Newmark
 								<span style={{ color: '#FFDD03', paddingLeft: 10, paddingRight: 10 }}>/</span>
-								{
-									`${new Date(props.post.createdAt * 1000).toDateString()} at 
-								${new Date(props.post.createdAt * 1000).getHours() % 12}:${new Date(props.post.createdAt * 1000).getMinutes()} 
-								${new Date(props.post.createdAt * 1000).getHours() > 11 ? 'PM' : 'AM'}`
-								}
+								{Math.floor(new Date().getTime() / 1000) - props.post.createdAt <= 86400 ?
+									`${formatDistance(new Date(props.post.createdAt * 1000), new Date(), { addSuffix: true })}`.replace(/about/gi, '').trim() :
+									format(props.post.createdAt * 1000, 'MMMM dd, y')}
 							</p>
 						</div>
 					</div>

@@ -57,11 +57,13 @@ const Blog = (props: any) => {
 					openGraph={{
 						title: 'Blog',
 						description: 'A collection of articles about various topics.',
-						site: 'http://localhost:3000/blog',
+						site: 'https://scnewmark.vercel.app/blog',
 						image: '/images/scnewmark.jpg',
-						url: 'http://localhost:3000/blog',
+						url: 'https://scnewmark.vercel.app/blog',
 						type: 'article'
 					}}
+					description="A collection of articles about various topics."
+					keywords="blog, articles, posts"
 					name="scnewmark • Blog"
 					themeColor="#FBC403"
 				/>
